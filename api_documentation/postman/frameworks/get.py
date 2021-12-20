@@ -14,7 +14,13 @@ response = requests.get(queryURL)
 #  'queryURL', 
 #  auth=HTTPBasicAuth('username', 'password')
 #)
-
+if (response.status_code == 200):
+    print("The request was a success!")
+    # Code here will only run if the request is successful
+elif (response.status_code == 404:
+    print("Result not found!")
+    # Code here will react to failed requests
+      
 userdata = json.loads(response.text)[0]
 
 name = userdata["name"]
