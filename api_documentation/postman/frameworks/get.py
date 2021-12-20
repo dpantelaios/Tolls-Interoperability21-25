@@ -3,7 +3,7 @@
 import requests
 import json
 
-URL = "https://jsonplaceholder.typicode.com/users"
+URL = "{baseURL}/admin/healthcheck"
 
 print("Search by Username:")
 user = input("> ")
