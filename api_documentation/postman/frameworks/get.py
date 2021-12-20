@@ -9,6 +9,11 @@ print("Search by Username:")
 user = input("> ")
 queryURL = URL + f"?username={user}"
 response = requests.get(queryURL)
+#εναλλακτικά : 
+#requests.get(
+#  'https://api.github.com/user', 
+#  auth=HTTPBasicAuth('username', 'password')
+#)
 
 userdata = json.loads(response.text)[0]
 
