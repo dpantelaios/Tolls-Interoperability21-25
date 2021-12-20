@@ -9,7 +9,7 @@ print("Search by Username:")
 user = input("> ")
 queryURL = URL + f"?username={user}"
 response = requests.get(queryURL)
-#εναλλακτικά : 
+#εναλλακτικά με παράμετρο για authenticication: 
 #requests.get(
 #  'queryURL', 
 #  auth=HTTPBasicAuth('username', 'password')
