@@ -11,7 +11,7 @@ queryURL = URL + f"?username={user}"
 response = requests.get(queryURL)
 #εναλλακτικά : 
 #requests.get(
-#  'https://api.github.com/user', 
+#  'queryURL', 
 #  auth=HTTPBasicAuth('username', 'password')
 #)
 
