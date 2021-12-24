@@ -30,10 +30,8 @@ def insertPasses():
             month = month[-2:]
             day = '0' + day
             day = day[-2:]
-            if ((year == "2019") and (month == "03") and (day == "31") and (time[0] == '0') and (time[1] == '3')):
-                time = "04:00"
-            if ((year == "2021") and (month == "03") and (day == "28") and (time[0] == '0') and (time[1] == '3')):
-                time = "04:00"
+            if ((month =='03') and (time[:2] == '03') and ((year == '2019' and day == '31') or (year == '2021' and day == '28'))):
+                time = '04:00'
             date = year + '-' + month + '-' + day + ' ' + time + ":00"
             cursor.execute(f'''
                              INSERT INTO pass
