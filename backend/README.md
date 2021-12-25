@@ -11,5 +11,5 @@
    καθώς και εισαγωγή των δεδομένων των διελεύσεων από τα sampledata01_passes100_8000
 Eναλλακτικά φόρτωση του softeng.sql σε MySQL DBMS
 
-3)απαραίτητες βιβλιοθήκες Python: apscheduler, pandas, flask_restful, flask
+3) απαραίτητες βιβλιοθήκες Python: apscheduler, pandas, flask_restful, flask
 4) τρέξιμο του αρχείου app.py 
