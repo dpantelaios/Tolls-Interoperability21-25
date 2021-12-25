@@ -7,5 +7,5 @@ import time as tm
 import csv
 from backend import *
 
-#createDb()
+createDb()
 insertPasses()
