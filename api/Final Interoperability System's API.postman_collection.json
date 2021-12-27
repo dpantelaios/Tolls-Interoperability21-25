@@ -1,0 +1,907 @@
+{
+	"info": {
+		"_postman_id": "d1d3b15c-e515-4294-bdba-4b2a52e22c75",
+		"name": "Interoperability System's API",
+		"description": "# Introduction\n\nIt supports the following requests:  \n*Healthcheck (for admin)  \n*ResetStations (for admin)  \n*ResetVehicles(for admin)  \n*ResetPasses (for admin)  \n*PassesCost  \n*PassesAnalysis  \n*PassesPerStation  \n*CostBy\n\nThe user can specify the data format from a url parameter \"format\". The supported formats for data are csv and json.\n\n# Error Codes\n\n*400:Bad request  \n*402:No data  \n*500:Internal server error",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/admin/healthcheck/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/admin/healthcheck/",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"healthcheck",
+						""
+					]
+				},
+				"description": "Checks end-to-end connectivity by attempting to connect to the database. Returns status."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/healthcheck/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"healthcheck",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/admin/healthcheck/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/healthcheck/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"healthcheck",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "135"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Dec 2021 21:29:22 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\",\n    \"dbconnection\": \" host: 'localhost',port : '3306', user : 'root', password : 'softeng', database : 'softeng'\"\n}"
+				}
+			]
+		},
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/admin/resetPasses/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetpasses/",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"resetpasses",
+						""
+					]
+				},
+				"description": "Attempts to delete all pass records from database and reset administrator's password to \"freepasses4all\". Returns status."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetPasses/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetPasses",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/admin/resetPasses/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetpasses/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetpasses",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 24 Dec 2021 19:36:55 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\"\n}"
+				}
+			]
+		},
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/admin/resetStations/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetstations/",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"resetstations",
+						""
+					]
+				},
+				"description": "Attempts to delete all station records from the database and initialize the station's table with given sample data. Returns success status."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetStations/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetStations",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/admin/resetStations/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetstations/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetstations",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 24 Dec 2021 19:37:12 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\"\n}"
+				}
+			]
+		},
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/admin/resetVehicles/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetvehicles/",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"resetvehicles",
+						""
+					]
+				},
+				"description": "Attempts to delete all vehicle records from the database and initialize the vehicle's table with given sample data. Returns status."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetVehicles/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetVehicles",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/admin/resetVehicles/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/admin/resetvehicles/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetvehicles",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 24 Dec 2021 19:37:24 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"ok\"\n}"
+				}
+			]
+		},
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/PassesPerStation/AO00/20190213/20200413",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/PassesPerStation/AO00/20190213/20200413",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesPerStation",
+						"AO00",
+						"20190213",
+						"20200413"
+					]
+				},
+				"description": "Takes stationID, dateFrom, dateTo as parameters. The date should be given as year month day (without gaps) and month and day in 2-digit form (e.g. 20210118). Returns all the passes recorded at the specified station and within the specified time period. In case of failure, it returns the corresponding error status code."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/PassesPerStation/AO00/20190213/20200413",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesPerStation",
+								"AO00",
+								"20190213",
+								"20200413"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/PassesPerStation/AO00/20190213/20200413",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/PassesPerStation/AO00/20190213/20200413",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesPerStation",
+								"AO00",
+								"20190213",
+								"20200413"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "26186"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Dec 2021 21:30:57 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Station\": \"AO00\",\n    \"StationOperator\": \"AO\",\n    \"RequestTimestamp\": \"2021-12-27 23:30:57\",\n    \"PeriodFrom\": \"2019-02-13\",\n    \"PeriodTo\": \"2020-04-13\",\n    \"NumberOfPasses\": 112,\n    \"PassesList\": [\n        {\n            \"PassIndex\": 1,\n            \"PassID\": \"XUO2267731\",\n            \"PassTimeStamp\": \"2019-02-23 10:24:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 2,\n            \"PassID\": \"EMN7949413\",\n            \"PassTimeStamp\": \"2019-02-24 17:14:00\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 3,\n            \"PassID\": \"DHU9166339\",\n            \"PassTimeStamp\": \"2019-03-05 05:27:00\",\n            \"VehicleID\": \"UA13YTK28483\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 4,\n            \"PassID\": \"LCG2307827\",\n            \"PassTimeStamp\": \"2019-03-08 14:46:00\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 5,\n            \"PassID\": \"DMY2545901\",\n            \"PassTimeStamp\": \"2019-03-11 01:03:00\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 6,\n            \"PassID\": \"BHN1051810\",\n            \"PassTimeStamp\": \"2019-03-11 01:40:00\",\n            \"VehicleID\": \"LC72NRN52084\",\n            \"TagProvider\": \"OO\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 7,\n            \"PassID\": \"RKE1848291\",\n            \"PassTimeStamp\": \"2019-03-12 14:50:00\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 8,\n            \"PassID\": \"VKL9285558\",\n            \"PassTimeStamp\": \"2019-03-15 20:10:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 9,\n            \"PassID\": \"UFM8120366\",\n            \"PassTimeStamp\": \"2019-03-22 02:08:00\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 10,\n            \"PassID\": \"ZED2137480\",\n            \"PassTimeStamp\": \"2019-03-22 05:18:00\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 11,\n            \"PassID\": \"PNC5132100\",\n            \"PassTimeStamp\": \"2019-03-26 06:07:00\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 12,\n            \"PassID\": \"ZAO5551749\",\n            \"PassTimeStamp\": \"2019-04-01 14:28:00\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 13,\n            \"PassID\": \"TKD7322004\",\n            \"PassTimeStamp\": \"2019-04-01 19:31:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 14,\n            \"PassID\": \"BDZ6359400\",\n            \"PassTimeStamp\": \"2019-04-05 23:07:00\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 15,\n            \"PassID\": \"SUN0031680\",\n            \"PassTimeStamp\": \"2019-04-07 08:09:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 16,\n            \"PassID\": \"BOM4242407\",\n            \"PassTimeStamp\": \"2019-04-10 03:11:00\",\n            \"VehicleID\": \"QU94IGC75528\",\n            \"TagProvider\": \"EG\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 17,\n            \"PassID\": \"YQM4757829\",\n            \"PassTimeStamp\": \"2019-04-15 17:02:00\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 18,\n            \"PassID\": \"RDV5862999\",\n            \"PassTimeStamp\": \"2019-04-24 10:09:00\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 19,\n            \"PassID\": \"RMV6384903\",\n            \"PassTimeStamp\": \"2019-04-26 12:39:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"TagProvider\": \"OO\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 20,\n            \"PassID\": \"EIK6253516\",\n            \"PassTimeStamp\": \"2019-04-29 12:07:00\",\n            \"VehicleID\": \"DW44ZOO26361\",\n            \"TagProvider\": \"EG\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 21,\n            \"PassID\": \"IST4922985\",\n            \"PassTimeStamp\": \"2019-04-29 23:45:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 22,\n            \"PassID\": \"RMQ8952726\",\n            \"PassTimeStamp\": \"2019-05-08 17:14:00\",\n            \"VehicleID\": \"PM58XHX45588\",\n            \"TagProvider\": \"NE\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 23,\n            \"PassID\": \"YHY2932130\",\n            \"PassTimeStamp\": \"2019-05-10 13:03:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 24,\n            \"PassID\": \"PRW4385830\",\n            \"PassTimeStamp\": \"2019-05-14 13:00:00\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 25,\n            \"PassID\": \"EHK7108432\",\n            \"PassTimeStamp\": \"2019-06-07 06:06:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 26,\n            \"PassID\": \"WDL7716832\",\n            \"PassTimeStamp\": \"2019-06-12 09:46:00\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 27,\n            \"PassID\": \"STJ7921430\",\n            \"PassTimeStamp\": \"2019-06-17 06:09:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 28,\n            \"PassID\": \"LRB0970704\",\n            \"PassTimeStamp\": \"2019-06-19 09:07:00\",\n            \"VehicleID\": \"KF48RSD79865\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 29,\n            \"PassID\": \"AGP7298908\",\n            \"PassTimeStamp\": \"2019-07-03 01:55:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 30,\n            \"PassID\": \"ZIX4627767\",\n            \"PassTimeStamp\": \"2019-07-05 16:46:00\",\n            \"VehicleID\": \"SU00RDZ36214\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 31,\n            \"PassID\": \"BED7361111\",\n            \"PassTimeStamp\": \"2019-07-05 22:14:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 32,\n            \"PassID\": \"TUR7870020\",\n            \"PassTimeStamp\": \"2019-07-08 13:59:00\",\n            \"VehicleID\": \"EV77EDV52985\",\n            \"TagProvider\": \"NE\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 33,\n            \"PassID\": \"AVV6246038\",\n            \"PassTimeStamp\": \"2019-07-09 00:44:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 34,\n            \"PassID\": \"EJR7988226\",\n            \"PassTimeStamp\": \"2019-07-12 03:14:00\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 35,\n            \"PassID\": \"TXB4341157\",\n            \"PassTimeStamp\": \"2019-07-16 22:02:00\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 36,\n            \"PassID\": \"SEV1929743\",\n            \"PassTimeStamp\": \"2019-07-25 00:47:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 37,\n            \"PassID\": \"UYK1241134\",\n            \"PassTimeStamp\": \"2019-08-01 06:58:00\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 38,\n            \"PassID\": \"YBM6534477\",\n            \"PassTimeStamp\": \"2019-08-04 11:17:00\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 39,\n            \"PassID\": \"UAV7141890\",\n            \"PassTimeStamp\": \"2019-08-08 00:58:00\",\n            \"VehicleID\": \"SL09NOT64494\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 40,\n            \"PassID\": \"KIH9567794\",\n            \"PassTimeStamp\": \"2019-08-08 05:18:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 41,\n            \"PassID\": \"SNL4431588\",\n            \"PassTimeStamp\": \"2019-08-09 13:14:00\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 42,\n            \"PassID\": \"AGT6541508\",\n            \"PassTimeStamp\": \"2019-08-15 19:16:00\",\n            \"VehicleID\": \"IW53OQE31439\",\n            \"TagProvider\": \"EG\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 43,\n            \"PassID\": \"XOL9362620\",\n            \"PassTimeStamp\": \"2019-08-19 17:57:00\",\n            \"VehicleID\": \"HW75BKT77773\",\n            \"TagProvider\": \"KO\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 44,\n            \"PassID\": \"IFR5450511\",\n            \"PassTimeStamp\": \"2019-08-30 02:10:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 45,\n            \"PassID\": \"LUE0547177\",\n            \"PassTimeStamp\": \"2019-09-02 03:12:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 46,\n            \"PassID\": \"YQM7999460\",\n            \"PassTimeStamp\": \"2019-09-05 17:07:00\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 47,\n            \"PassID\": \"JSA6037609\",\n            \"PassTimeStamp\": \"2019-09-11 07:45:00\",\n            \"VehicleID\": \"CK97FAU13897\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 48,\n            \"PassID\": \"WSL2244038\",\n            \"PassTimeStamp\": \"2019-09-13 08:57:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 49,\n            \"PassID\": \"IEC8131193\",\n            \"PassTimeStamp\": \"2019-09-13 19:20:00\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 50,\n            \"PassID\": \"DJH2239821\",\n            \"PassTimeStamp\": \"2019-09-13 22:42:00\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 51,\n            \"PassID\": \"SQX7705766\",\n            \"PassTimeStamp\": \"2019-09-26 14:30:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 52,\n            \"PassID\": \"NHV4020625\",\n            \"PassTimeStamp\": \"2019-09-29 14:39:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 53,\n            \"PassID\": \"JJD6299902\",\n            \"PassTimeStamp\": \"2019-10-10 16:29:00\",\n            \"VehicleID\": \"MA30QLI76818\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 54,\n            \"PassID\": \"LVJ3729198\",\n            \"PassTimeStamp\": \"2019-10-10 19:30:00\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 55,\n            \"PassID\": \"NUC0879442\",\n            \"PassTimeStamp\": \"2019-10-10 22:51:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 56,\n            \"PassID\": \"YQU7685619\",\n            \"PassTimeStamp\": \"2019-10-11 19:00:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 57,\n            \"PassID\": \"WES7900115\",\n            \"PassTimeStamp\": \"2019-10-20 15:30:00\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 58,\n            \"PassID\": \"UTS4031862\",\n            \"PassTimeStamp\": \"2019-10-22 21:04:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 59,\n            \"PassID\": \"BTZ9957321\",\n            \"PassTimeStamp\": \"2019-10-24 07:03:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 60,\n            \"PassID\": \"RGM2485302\",\n            \"PassTimeStamp\": \"2019-11-02 04:47:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 61,\n            \"PassID\": \"IWT3248598\",\n            \"PassTimeStamp\": \"2019-11-04 02:48:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 62,\n            \"PassID\": \"ZRV5854573\",\n            \"PassTimeStamp\": \"2019-11-14 21:21:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 63,\n            \"PassID\": \"PIT0297390\",\n            \"PassTimeStamp\": \"2019-11-15 15:29:00\",\n            \"VehicleID\": \"SY96JDQ97089\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 64,\n            \"PassID\": \"HIY3350065\",\n            \"PassTimeStamp\": \"2019-11-23 20:37:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 65,\n            \"PassID\": \"NCW2581721\",\n            \"PassTimeStamp\": \"2019-11-23 20:43:00\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 66,\n            \"PassID\": \"DTY3312777\",\n            \"PassTimeStamp\": \"2019-11-25 13:28:00\",\n            \"VehicleID\": \"IZ65WAT29135\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 67,\n            \"PassID\": \"QEI4619223\",\n            \"PassTimeStamp\": \"2019-12-02 12:20:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 68,\n            \"PassID\": \"ALP7307968\",\n            \"PassTimeStamp\": \"2019-12-09 02:54:00\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 69,\n            \"PassID\": \"OBG3847018\",\n            \"PassTimeStamp\": \"2019-12-12 19:04:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 70,\n            \"PassID\": \"HNH2644382\",\n            \"PassTimeStamp\": \"2019-12-14 04:09:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 71,\n            \"PassID\": \"ZHH4770761\",\n            \"PassTimeStamp\": \"2019-12-14 06:51:00\",\n            \"VehicleID\": \"QN23UHH39091\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 72,\n            \"PassID\": \"YNT9137609\",\n            \"PassTimeStamp\": \"2019-12-21 10:17:00\",\n            \"VehicleID\": \"KB55KTM48860\",\n            \"TagProvider\": \"KO\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 73,\n            \"PassID\": \"WEM0897319\",\n            \"PassTimeStamp\": \"2019-12-21 20:55:00\",\n            \"VehicleID\": \"KF48RSD79865\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 74,\n            \"PassID\": \"YVJ4603080\",\n            \"PassTimeStamp\": \"2019-12-21 22:58:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 75,\n            \"PassID\": \"FKD5035961\",\n            \"PassTimeStamp\": \"2019-12-28 01:19:00\",\n            \"VehicleID\": \"SL09NOT64494\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 76,\n            \"PassID\": \"DMC0242007\",\n            \"PassTimeStamp\": \"2019-12-30 13:26:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 77,\n            \"PassID\": \"WZZ9228651\",\n            \"PassTimeStamp\": \"2020-01-02 20:44:00\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 78,\n            \"PassID\": \"SUM5157958\",\n            \"PassTimeStamp\": \"2020-01-03 14:48:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"TagProvider\": \"OO\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 79,\n            \"PassID\": \"CKX6529510\",\n            \"PassTimeStamp\": \"2020-01-05 23:55:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 80,\n            \"PassID\": \"XRV2891190\",\n            \"PassTimeStamp\": \"2020-01-10 10:18:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"TagProvider\": \"OO\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 81,\n            \"PassID\": \"NJI2609774\",\n            \"PassTimeStamp\": \"2020-01-12 19:12:00\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 82,\n            \"PassID\": \"JNF7720068\",\n            \"PassTimeStamp\": \"2020-01-14 15:43:00\",\n            \"VehicleID\": \"SY96JDQ97089\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1.5\n        },\n        {\n            \"PassIndex\": 83,\n            \"PassID\": \"RXC1545443\",\n            \"PassTimeStamp\": \"2020-01-15 01:57:00\",\n            \"VehicleID\": \"HE38BQH01623\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 84,\n            \"PassID\": \"ZDJ4463420\",\n            \"PassTimeStamp\": \"2020-01-17 12:54:00\",\n            \"VehicleID\": \"AT19HLV57173\",\n            \"TagProvider\": \"OO\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 85,\n            \"PassID\": \"VDX5272249\",\n            \"PassTimeStamp\": \"2020-01-18 02:00:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 86,\n            \"PassID\": \"XPY5131291\",\n            \"PassTimeStamp\": \"2020-01-23 20:09:00\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 87,\n            \"PassID\": \"FOP8805584\",\n            \"PassTimeStamp\": \"2020-01-28 10:58:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 88,\n            \"PassID\": \"QMN3591008\",\n            \"PassTimeStamp\": \"2020-01-30 11:18:00\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 89,\n            \"PassID\": \"LNP1318383\",\n            \"PassTimeStamp\": \"2020-02-01 07:55:00\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 90,\n            \"PassID\": \"BDX8077094\",\n            \"PassTimeStamp\": \"2020-02-03 19:21:00\",\n            \"VehicleID\": \"HA82SCK64299\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 91,\n            \"PassID\": \"HNJ2724008\",\n            \"PassTimeStamp\": \"2020-02-08 13:34:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 92,\n            \"PassID\": \"UGX8037007\",\n            \"PassTimeStamp\": \"2020-02-08 14:46:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 93,\n            \"PassID\": \"FPV7398094\",\n            \"PassTimeStamp\": \"2020-02-13 23:46:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 94,\n            \"PassID\": \"YSR7827836\",\n            \"PassTimeStamp\": \"2020-02-16 03:22:00\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 95,\n            \"PassID\": \"AHY1239049\",\n            \"PassTimeStamp\": \"2020-02-19 16:51:00\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 96,\n            \"PassID\": \"XWC3725190\",\n            \"PassTimeStamp\": \"2020-02-23 14:00:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 97,\n            \"PassID\": \"PPW6744269\",\n            \"PassTimeStamp\": \"2020-02-25 22:02:00\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 98,\n            \"PassID\": \"UPZ8966863\",\n            \"PassTimeStamp\": \"2020-02-26 13:29:00\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 99,\n            \"PassID\": \"CGE9291092\",\n            \"PassTimeStamp\": \"2020-02-27 22:43:00\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 100,\n            \"PassID\": \"GYV1315886\",\n            \"PassTimeStamp\": \"2020-02-29 03:35:00\",\n            \"VehicleID\": \"HE38BQH01623\",\n            \"TagProvider\": \"MR\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 101,\n            \"PassID\": \"MJU8833415\",\n            \"PassTimeStamp\": \"2020-03-01 18:10:00\",\n            \"VehicleID\": \"YX66XYW62640\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 102,\n            \"PassID\": \"HBC6895304\",\n            \"PassTimeStamp\": \"2020-03-05 11:58:00\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 103,\n            \"PassID\": \"CWY3278553\",\n            \"PassTimeStamp\": \"2020-03-08 08:33:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 104,\n            \"PassID\": \"CJD3021960\",\n            \"PassTimeStamp\": \"2020-03-11 01:09:00\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 105,\n            \"PassID\": \"MHE8475516\",\n            \"PassTimeStamp\": \"2020-03-13 00:30:00\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 106,\n            \"PassID\": \"RNJ5683201\",\n            \"PassTimeStamp\": \"2020-03-15 09:51:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 107,\n            \"PassID\": \"AFK9955474\",\n            \"PassTimeStamp\": \"2020-03-17 08:56:00\",\n            \"VehicleID\": \"SU00RDZ36214\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 108,\n            \"PassID\": \"TRR4886997\",\n            \"PassTimeStamp\": \"2020-03-22 16:02:00\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 109,\n            \"PassID\": \"JGB5387508\",\n            \"PassTimeStamp\": \"2020-03-25 03:57:00\",\n            \"VehicleID\": \"SY96JDQ97089\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1.5\n        },\n        {\n            \"PassIndex\": 110,\n            \"PassID\": \"TTC4928259\",\n            \"PassTimeStamp\": \"2020-04-04 10:42:00\",\n            \"VehicleID\": \"EN26OAB52983\",\n            \"TagProvider\": \"GF\",\n            \"PassType\": \"visitor\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 111,\n            \"PassID\": \"VFD8735330\",\n            \"PassTimeStamp\": \"2020-04-04 11:04:00\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 112,\n            \"PassID\": \"LLM6014246\",\n            \"PassTimeStamp\": \"2020-04-10 14:11:00\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"AO\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/EG/OO/20190213/20200413",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/EG/OO/20190213/20200413",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesAnalysis",
+						"EG",
+						"OO",
+						"20190213",
+						"20200413"
+					]
+				},
+				"description": "Takes op1ID, op2ID, dateFrom, dateTo as parameters. Returns all the passes from op2ID operator's vehicles (vehicles whose tags are issued by that operator) recorded at op1ID operator's stations. In case of failure it returns the corresponding error status code."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/EG/OO/20190213/20200413",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesAnalysis",
+								"EG",
+								"OO",
+								"20190213",
+								"20200413"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/EG/OO/20190213/20200413",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/EG/OO/20190213/20200413",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesAnalysis",
+								"EG",
+								"OO",
+								"20190213",
+								"20200413"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15676"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Dec 2021 21:31:07 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"op1_ID\": \"EG\",\n    \"op2_ID\": \"OO\",\n    \"RequestTimestamp\": \"2021-12-27 23:31:07\",\n    \"PeriodFrom\": \"2019-02-13\",\n    \"PeriodTo\": \"2020-04-13\",\n    \"NumberOfPasses\": 79,\n    \"PassesList\": [\n        {\n            \"PassIndex\": 1,\n            \"PassID\": \"WEP5943638\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-02-16 22:57:00\",\n            \"VehicleID\": \"EM54HQI58682\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 2,\n            \"PassID\": \"GAU8660813\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-02-19 00:20:00\",\n            \"VehicleID\": \"BK77KNV91142\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 3,\n            \"PassID\": \"VUH3169217\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2019-02-22 09:51:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 4,\n            \"PassID\": \"YSJ6671588\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-03-15 18:53:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 5,\n            \"PassID\": \"CKG9408605\",\n            \"StationID\": \"EG09\",\n            \"TimeStamp\": \"2019-03-19 16:26:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 6,\n            \"PassID\": \"IJH8570286\",\n            \"StationID\": \"EG10\",\n            \"TimeStamp\": \"2019-03-30 08:06:00\",\n            \"VehicleID\": \"JF94VYA88954\",\n            \"Charge\": 2.2\n        },\n        {\n            \"PassIndex\": 7,\n            \"PassID\": \"FPI8240668\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-03-30 11:40:00\",\n            \"VehicleID\": \"LC72NRN52084\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 8,\n            \"PassID\": \"VOF5884324\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-04-20 23:36:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 9,\n            \"PassID\": \"ISG0725433\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-04-21 08:55:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 10,\n            \"PassID\": \"MVN2209800\",\n            \"StationID\": \"EG11\",\n            \"TimeStamp\": \"2019-04-21 15:27:00\",\n            \"VehicleID\": \"QR03XCJ37459\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 11,\n            \"PassID\": \"SXF3559612\",\n            \"StationID\": \"EG06\",\n            \"TimeStamp\": \"2019-05-04 04:37:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 12,\n            \"PassID\": \"TUA5918134\",\n            \"StationID\": \"EG02\",\n            \"TimeStamp\": \"2019-05-06 02:24:00\",\n            \"VehicleID\": \"LC72NRN52084\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 13,\n            \"PassID\": \"MNI2389815\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-05-09 20:31:00\",\n            \"VehicleID\": \"AY38OQF67603\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 14,\n            \"PassID\": \"PBW6399281\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2019-05-14 13:29:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 2.2\n        },\n        {\n            \"PassIndex\": 15,\n            \"PassID\": \"SOY6660713\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2019-05-18 23:38:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 16,\n            \"PassID\": \"RFS3102063\",\n            \"StationID\": \"EG02\",\n            \"TimeStamp\": \"2019-05-22 11:22:00\",\n            \"VehicleID\": \"WG11QVY31890\",\n            \"Charge\": 2\n        },\n        {\n            \"PassIndex\": 17,\n            \"PassID\": \"AIF3169355\",\n            \"StationID\": \"EG09\",\n            \"TimeStamp\": \"2019-05-22 16:47:00\",\n            \"VehicleID\": \"AT19HLV57173\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 18,\n            \"PassID\": \"DJS2401358\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-05-27 01:17:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 19,\n            \"PassID\": \"ILW3765200\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-06-02 03:57:00\",\n            \"VehicleID\": \"QR03XCJ37459\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 20,\n            \"PassID\": \"LZK5352200\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2019-06-10 07:05:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 21,\n            \"PassID\": \"CVF4555113\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-06-12 06:44:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 22,\n            \"PassID\": \"SEN3224059\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-06-20 09:42:00\",\n            \"VehicleID\": \"QR03XCJ37459\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 23,\n            \"PassID\": \"YIK3492471\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-06-27 10:52:00\",\n            \"VehicleID\": \"JF94VYA88954\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 24,\n            \"PassID\": \"WLL8251040\",\n            \"StationID\": \"EG06\",\n            \"TimeStamp\": \"2019-06-28 10:50:00\",\n            \"VehicleID\": \"WG11QVY31890\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 25,\n            \"PassID\": \"IQZ7724738\",\n            \"StationID\": \"EG03\",\n            \"TimeStamp\": \"2019-06-28 22:04:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"Charge\": 2\n        },\n        {\n            \"PassIndex\": 26,\n            \"PassID\": \"VBI5365345\",\n            \"StationID\": \"EG03\",\n            \"TimeStamp\": \"2019-06-29 13:31:00\",\n            \"VehicleID\": \"AT19HLV57173\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 27,\n            \"PassID\": \"PQG9496478\",\n            \"StationID\": \"EG10\",\n            \"TimeStamp\": \"2019-07-08 18:02:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 28,\n            \"PassID\": \"XNO2864942\",\n            \"StationID\": \"EG02\",\n            \"TimeStamp\": \"2019-07-24 10:51:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 29,\n            \"PassID\": \"PZT5234048\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-08-05 02:33:00\",\n            \"VehicleID\": \"WG11QVY31890\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 30,\n            \"PassID\": \"MPW0357183\",\n            \"StationID\": \"EG11\",\n            \"TimeStamp\": \"2019-08-10 20:27:00\",\n            \"VehicleID\": \"AY38OQF67603\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 31,\n            \"PassID\": \"AUI2758297\",\n            \"StationID\": \"EG06\",\n            \"TimeStamp\": \"2019-08-17 06:44:00\",\n            \"VehicleID\": \"EM54HQI58682\",\n            \"Charge\": 2\n        },\n        {\n            \"PassIndex\": 32,\n            \"PassID\": \"BFZ5688059\",\n            \"StationID\": \"EG11\",\n            \"TimeStamp\": \"2019-08-18 19:14:00\",\n            \"VehicleID\": \"EM54HQI58682\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 33,\n            \"PassID\": \"PIR8410425\",\n            \"StationID\": \"EG07\",\n            \"TimeStamp\": \"2019-08-24 00:22:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 34,\n            \"PassID\": \"FDH8281970\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2019-08-26 10:34:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 35,\n            \"PassID\": \"KON8116847\",\n            \"StationID\": \"EG02\",\n            \"TimeStamp\": \"2019-08-26 23:50:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"Charge\": 2\n        },\n        {\n            \"PassIndex\": 36,\n            \"PassID\": \"VQY7316320\",\n            \"StationID\": \"EG06\",\n            \"TimeStamp\": \"2019-09-02 09:21:00\",\n            \"VehicleID\": \"AY38OQF67603\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 37,\n            \"PassID\": \"GZB7005284\",\n            \"StationID\": \"EG10\",\n            \"TimeStamp\": \"2019-09-08 08:19:00\",\n            \"VehicleID\": \"JF94VYA88954\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 38,\n            \"PassID\": \"LUX2096891\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-09-11 07:36:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"Charge\": 2\n        },\n        {\n            \"PassIndex\": 39,\n            \"PassID\": \"FUE5070253\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2019-09-11 15:38:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"Charge\": 2.2\n        },\n        {\n            \"PassIndex\": 40,\n            \"PassID\": \"BQA1787319\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2019-09-14 00:23:00\",\n            \"VehicleID\": \"BK77KNV91142\",\n            \"Charge\": 2\n        },\n        {\n            \"PassIndex\": 41,\n            \"PassID\": \"ZJS6009226\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2019-09-18 02:49:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 42,\n            \"PassID\": \"YOM6673506\",\n            \"StationID\": \"EG03\",\n            \"TimeStamp\": \"2019-09-30 20:37:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 2.2\n        },\n        {\n            \"PassIndex\": 43,\n            \"PassID\": \"WPT1507539\",\n            \"StationID\": \"EG07\",\n            \"TimeStamp\": \"2019-10-24 02:05:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 2.2\n        },\n        {\n            \"PassIndex\": 44,\n            \"PassID\": \"XZE6743666\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2019-10-25 16:38:00\",\n            \"VehicleID\": \"XV40HUQ04740\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 45,\n            \"PassID\": \"QFH2159307\",\n            \"StationID\": \"EG09\",\n            \"TimeStamp\": \"2019-11-05 18:06:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 46,\n            \"PassID\": \"BVA0227525\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2019-11-09 06:34:00\",\n            \"VehicleID\": \"QR03XCJ37459\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 47,\n            \"PassID\": \"CND7079462\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2019-11-11 14:29:00\",\n            \"VehicleID\": \"EM54HQI58682\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 48,\n            \"PassID\": \"XHU7744601\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2019-11-12 21:07:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 49,\n            \"PassID\": \"EYJ3935707\",\n            \"StationID\": \"EG00\",\n            \"TimeStamp\": \"2019-11-14 07:43:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 50,\n            \"PassID\": \"PYJ4434116\",\n            \"StationID\": \"EG03\",\n            \"TimeStamp\": \"2019-12-12 00:59:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 51,\n            \"PassID\": \"EDB7500317\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-12-13 00:43:00\",\n            \"VehicleID\": \"AT19HLV57173\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 52,\n            \"PassID\": \"UVT3100488\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2019-12-18 16:10:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 2.2\n        },\n        {\n            \"PassIndex\": 53,\n            \"PassID\": \"NQN1131929\",\n            \"StationID\": \"EG11\",\n            \"TimeStamp\": \"2019-12-21 23:36:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 54,\n            \"PassID\": \"XWX7642878\",\n            \"StationID\": \"EG06\",\n            \"TimeStamp\": \"2019-12-23 03:17:00\",\n            \"VehicleID\": \"QR03XCJ37459\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 55,\n            \"PassID\": \"VGL1562387\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2019-12-24 03:22:00\",\n            \"VehicleID\": \"AT19HLV57173\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 56,\n            \"PassID\": \"UUJ8054893\",\n            \"StationID\": \"EG10\",\n            \"TimeStamp\": \"2019-12-24 10:45:00\",\n            \"VehicleID\": \"AT19HLV57173\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 57,\n            \"PassID\": \"WXJ1437918\",\n            \"StationID\": \"EG06\",\n            \"TimeStamp\": \"2019-12-29 03:01:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 58,\n            \"PassID\": \"JBG3790372\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2019-12-31 15:56:00\",\n            \"VehicleID\": \"LC72NRN52084\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 59,\n            \"PassID\": \"JAI6361459\",\n            \"StationID\": \"EG09\",\n            \"TimeStamp\": \"2020-01-02 01:51:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 60,\n            \"PassID\": \"QJK9622829\",\n            \"StationID\": \"EG11\",\n            \"TimeStamp\": \"2020-01-12 11:08:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 61,\n            \"PassID\": \"GDN2597767\",\n            \"StationID\": \"EG02\",\n            \"TimeStamp\": \"2020-01-15 17:58:00\",\n            \"VehicleID\": \"AY38OQF67603\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 62,\n            \"PassID\": \"SYA2911476\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2020-01-25 20:49:00\",\n            \"VehicleID\": \"EM54HQI58682\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 63,\n            \"PassID\": \"DDP2067607\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2020-01-28 02:31:00\",\n            \"VehicleID\": \"QR03XCJ37459\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 64,\n            \"PassID\": \"JLM5525190\",\n            \"StationID\": \"EG01\",\n            \"TimeStamp\": \"2020-02-17 17:02:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 2.5\n        },\n        {\n            \"PassIndex\": 65,\n            \"PassID\": \"USA4624846\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2020-02-18 11:48:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 66,\n            \"PassID\": \"YRF5995695\",\n            \"StationID\": \"EG00\",\n            \"TimeStamp\": \"2020-02-26 18:02:00\",\n            \"VehicleID\": \"VJ92OYV94295\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 67,\n            \"PassID\": \"KKH1885847\",\n            \"StationID\": \"EG10\",\n            \"TimeStamp\": \"2020-02-29 18:35:00\",\n            \"VehicleID\": \"RK48BOP88344\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 68,\n            \"PassID\": \"VWZ7652044\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2020-03-04 09:22:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 1\n        },\n        {\n            \"PassIndex\": 69,\n            \"PassID\": \"WNQ2805910\",\n            \"StationID\": \"EG12\",\n            \"TimeStamp\": \"2020-03-18 21:50:00\",\n            \"VehicleID\": \"BK77KNV91142\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 70,\n            \"PassID\": \"WSN7310439\",\n            \"StationID\": \"EG07\",\n            \"TimeStamp\": \"2020-03-20 19:39:00\",\n            \"VehicleID\": \"AT19HLV57173\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 71,\n            \"PassID\": \"ELI0151406\",\n            \"StationID\": \"EG03\",\n            \"TimeStamp\": \"2020-03-21 01:49:00\",\n            \"VehicleID\": \"WG11QVY31890\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 72,\n            \"PassID\": \"EKH7843149\",\n            \"StationID\": \"EG09\",\n            \"TimeStamp\": \"2020-03-31 20:15:00\",\n            \"VehicleID\": \"BK77KNV91142\",\n            \"Charge\": 1.5\n        },\n        {\n            \"PassIndex\": 73,\n            \"PassID\": \"BCQ2267300\",\n            \"StationID\": \"EG07\",\n            \"TimeStamp\": \"2020-04-05 12:22:00\",\n            \"VehicleID\": \"IC95TLY24827\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 74,\n            \"PassID\": \"VWO5512296\",\n            \"StationID\": \"EG08\",\n            \"TimeStamp\": \"2020-04-06 02:37:00\",\n            \"VehicleID\": \"WG11QVY31890\",\n            \"Charge\": 2\n        },\n        {\n            \"PassIndex\": 75,\n            \"PassID\": \"ONZ2766902\",\n            \"StationID\": \"EG00\",\n            \"TimeStamp\": \"2020-04-07 09:35:00\",\n            \"VehicleID\": \"EE22TMX10817\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 76,\n            \"PassID\": \"HLE4105720\",\n            \"StationID\": \"EG05\",\n            \"TimeStamp\": \"2020-04-10 03:08:00\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"Charge\": 3.1\n        },\n        {\n            \"PassIndex\": 77,\n            \"PassID\": \"FNY0477586\",\n            \"StationID\": \"EG04\",\n            \"TimeStamp\": \"2020-04-10 07:50:00\",\n            \"VehicleID\": \"QR03XCJ37459\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 78,\n            \"PassID\": \"SZR4776316\",\n            \"StationID\": \"EG10\",\n            \"TimeStamp\": \"2020-04-11 01:58:00\",\n            \"VehicleID\": \"EM54HQI58682\",\n            \"Charge\": 1.25\n        },\n        {\n            \"PassIndex\": 79,\n            \"PassID\": \"IDW1254948\",\n            \"StationID\": \"EG10\",\n            \"TimeStamp\": \"2020-04-12 14:31:00\",\n            \"VehicleID\": \"EM54HQI58682\",\n            \"Charge\": 1.5\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/PassesCost/MR/GF/20190213/20200413",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/PassesCost/MR/GF/20190213/20200413",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesCost",
+						"MR",
+						"GF",
+						"20190213",
+						"20200413"
+					]
+				},
+				"description": "Takes op1ID, op2ID, dateFrom, dateTo as parameters. Returns the total cost and the count of passes of op2ID operator's vehicles at op1ID operator's stations. In case of failure it returns the corresponding error status code."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/PassesCost/MR/GF/20190213/20200413",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesCost",
+								"MR",
+								"GF",
+								"20190213",
+								"20200413"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/PassesCost/MR/GF/20190213/20200413",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/PassesCost/MR/GF/20190213/20200413",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesCost",
+								"MR",
+								"GF",
+								"20190213",
+								"20200413"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "194"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Dec 2021 21:31:19 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"op1_ID\": \"MR\",\n    \"op2_ID\": \"GF\",\n    \"RequestTimestamp\": \"2021-12-27 23:31:19\",\n    \"PeriodFrom\": \"2019-02-13\",\n    \"PeriodTo\": \"2020-04-13\",\n    \"NumberOfPasses\": 1,\n    \"PassesCost\": 118.7\n}"
+				}
+			]
+		},
+		{
+			"name": "https://127.0.0.1:9103/interoperability/api/ChargesBy/AO/20190213/20190413/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/ChargesBy/AO/20190213/20190413/",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"ChargesBy",
+						"AO",
+						"20190213",
+						"20190413",
+						""
+					]
+				},
+				"description": "Takes opID, dateFrom, dateTo as parameters. Returns the total cost and the count of passes of every other operator's vehicles (vehicles whose tags are issued by that operator) at opID operator's stations. In case of failure it returns the corresponding error status code."
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/ChargesBy/AO/20190213/20190413/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"ChargesBy",
+								"AO",
+								"20190213",
+								"20190413",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "https://127.0.0.1:9103/interoperability/api/ChargesBy/AO/20190213/20190413/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:9103/interoperability/api/ChargesBy/AO/20190213/20190413/",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"ChargesBy",
+								"AO",
+								"20190213",
+								"20190413",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "751"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.2 Python/3.9.9"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Dec 2021 21:31:27 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"op_ID\": \"AO\",\n    \"RequestTimestamp\": \"2021-12-27 23:31:27\",\n    \"PeriodFrom\": \"2019-02-13\",\n    \"PeriodTo\": \"2019-04-13\",\n    \"PPOList\": [\n        {\n            \"VisitingOperator\": \"KO\",\n            \"NumberOfPasses\": 15,\n            \"PassesCost\": 42\n        },\n        {\n            \"VisitingOperator\": \"OO\",\n            \"NumberOfPasses\": 16,\n            \"PassesCost\": 44.8\n        },\n        {\n            \"VisitingOperator\": \"NE\",\n            \"NumberOfPasses\": 11,\n            \"PassesCost\": 30.8\n        },\n        {\n            \"VisitingOperator\": \"GF\",\n            \"NumberOfPasses\": 15,\n            \"PassesCost\": 42\n        },\n        {\n            \"VisitingOperator\": \"EG\",\n            \"NumberOfPasses\": 19,\n            \"PassesCost\": 53.2\n        },\n        {\n            \"VisitingOperator\": \"MR\",\n            \"NumberOfPasses\": 18,\n            \"PassesCost\": 50.4\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
