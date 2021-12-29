@@ -1,8 +1,12 @@
 library requirements για να κάνουμε μετά το setup.py σωστα
 
 CLI:
-
+setuptools==60.1.1 ##χρειάζεται στο requirements?
 API:
-Flask==
-mysql==
-pandas==
+Flask==2.0.2
+Flask-RESTful==0.3.9
+mysqlclient==2.1.0
+mysql-connector-python==8.0.27
+mysql-community-server==8.0.27 ## πως τσεκάρω το version απο cmd και πως λέγεται το αρχείο
+pandas==1.3.5
+apscheduler==3.8.1
