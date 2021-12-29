@@ -1,0 +1,8 @@
+library requirements για να κάνουμε μετά το setup.py σωστα
+
+CLI:
+
+API:
+Flask==
+mysql==
+pandas==
