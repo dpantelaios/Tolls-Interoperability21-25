@@ -1,15 +1,22 @@
 import mysql.connector
 import pandas as pd
 
+standard = {
+    'host': 'localhost', 
+    'database': 'softeng', 
+    'user': 'root', 
+    'password': 'insertyourpasshere', 
+    'port': 3306, 
+    'auth_plugin': 'mysql_native_password'
+}
 
 def createDb():
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng2', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         fd = open('softeng.sql','r')
         for row in fd:  
             cursor.execute(row)
-        print("done")
         connection.commit()
         cursor.close()
         connection.close()  
@@ -17,11 +24,13 @@ def createDb():
     except Exception as e:
         print(e)
 
-def insertPasses():
+
+def insertPassesB(source):
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root',  password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
-        csvdata = pd.read_csv(r'data\sampledata01_passes100_8000.csv', sep=";")
+        file_path= "..\\data"+"\\" +source
+        csvdata = pd.read_csv(file_path, sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             (date,time) = (row.timestamp).split()
@@ -40,11 +49,10 @@ def insertPasses():
         connection.commit()
         cursor.close()
         connection.close()
-
+        return True
     except Exception as e:
         print(e)
-
-
+        return False
 
 month = 1
 year = 19
@@ -60,14 +68,14 @@ def refresh():
             year +=1
         strm = '0'+str(month)
         dateTo = '20' + str(year) + '-' + strm[-2:] + '-01' + ' 00:00:00'        
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()     
         for opID in ['AO', 'MR', 'NE', 'OO', 'EG', 'GF', 'KO']:
             cursor.execute(f"""
                 SELECT SUM(Charge), vehicle.operator_ID FROM pass
                 INNER JOIN vehicle ON vehicle.vehicle_ID = pass.vehicle_ID
                 WHERE LEFT(pass.station_ID,2) = '{opID}' 
-                AND pass.timestamp BETWEEN '{dateFrom}' AND '{dateTo}' 
+                AND pass.pass_time BETWEEN '{dateFrom}' AND '{dateTo}' 
                 AND vehicle.operator_ID <> '{opID}'
                 GROUP BY vehicle.operator_ID                   
             """)
@@ -80,18 +88,16 @@ def refresh():
         connection.commit()
         cursor.close()
 
-
-
 def healthcheckB():
     try:
-         mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
-         return True
+        mysql.connector.connect(**standard)
+        return True
     except:
         return False
 
 def resetPassesB():
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute('DELETE FROM pass')
         connection.commit()
@@ -105,16 +111,16 @@ def resetPassesB():
 
 def resetStationsB():
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute('DELETE FROM station')
         connection.commit()
-        csvdata = pd.read_csv("data\sampledata01_stations.csv", sep=";")
+        csvdata = pd.read_csv( r"..\data\sampledata01_stations.csv" , sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             stationOp = row.stationID[:2]
             cursor.execute(f"""
-                INSERT INTO Station (station_ID, station_name,operator_ID)
+                INSERT INTO station (station_ID, station_name,operator_ID)
                 VALUES ('{row.stationID}','{row.stationName}','{stationOp}')
             """)
         connection.commit()
@@ -126,11 +132,11 @@ def resetStationsB():
 
 def resetVehiclesB():
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute(' DELETE FROM vehicle')
         connection.commit()
-        csvdata = pd.read_csv("data\sampledata01_vehicles_100.csv", sep=";")
+        csvdata = pd.read_csv(r"..\data\sampledata01_vehicles_100.csv", sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             cursor.execute(f""" 
@@ -148,16 +154,15 @@ def resetVehiclesB():
 
 def passesPerStationB(stationID, dateFrom, dateTo):
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute(f"""
-                            SELECT pass.timestamp, pass.charge, pass.station_ID, pass.vehicle_ID, pass.pass_ID, vehicle.operator_ID
+                            SELECT pass.pass_time, pass.charge, pass.station_ID, pass.vehicle_ID, pass.pass_ID, vehicle.operator_ID
 							FROM pass
                             INNER JOIN vehicle ON vehicle.vehicle_ID = pass.vehicle_ID
 							WHERE station_ID = '{stationID}'
-                            AND pass.timestamp BETWEEN '{dateFrom}' AND '{dateTo}' 
-                            ORDER BY pass.timestamp
-
+                            AND pass.pass_time BETWEEN '{dateFrom}' AND '{dateTo}' 
+                            ORDER BY pass.pass_time
         """)
         data = cursor.fetchall()
         return  {"data": data, "count": len(data)} 
@@ -170,15 +175,15 @@ def passesPerStationB(stationID, dateFrom, dateTo):
 
 def passesAnalysisB(op1ID, op2ID, dateFrom, dateTo):
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute(f"""
-            SELECT pass.timestamp, pass.charge, pass.station_ID, pass.vehicle_ID, pass.pass_ID, vehicle.operator_ID 
+            SELECT pass.pass_time, pass.charge, pass.station_ID, pass.vehicle_ID, pass.pass_ID, vehicle.operator_ID 
             FROM pass
             INNER JOIN vehicle ON vehicle.vehicle_ID = pass.vehicle_ID
             WHERE LEFT(pass.station_ID,2) = '{op1ID}' and  vehicle.operator_ID  = '{op2ID}'
-            AND pass.timestamp BETWEEN '{dateFrom}' AND '{dateTo}' 
-            ORDER BY pass.timestamp
+            AND pass.pass_time BETWEEN '{dateFrom}' AND '{dateTo}' 
+            ORDER BY pass.pass_time
         """)
         data = cursor.fetchall()
         return  {"data": data, "count": len(data)} 
@@ -191,15 +196,15 @@ def passesAnalysisB(op1ID, op2ID, dateFrom, dateTo):
 
 def passesCostB(op1ID, op2ID, dateFrom, dateTo):
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute(f"""
             SELECT ROUND(SUM(pass.charge),2)
             FROM pass
             INNER JOIN vehicle ON vehicle.vehicle_ID = pass.vehicle_ID
             WHERE LEFT(pass.station_ID,2) = '{op1ID}' and  vehicle.operator_ID  = '{op2ID}'
-            AND pass.timestamp BETWEEN '{dateFrom}' AND '{dateTo}' 
-            ORDER BY pass.timestamp         
+            AND pass.pass_time BETWEEN '{dateFrom}' AND '{dateTo}' 
+            ORDER BY pass.pass_time         
         """)
         data = cursor.fetchall()
         return  {"data": data, "count": len(data)} 
@@ -210,14 +215,14 @@ def passesCostB(op1ID, op2ID, dateFrom, dateTo):
 
 def chargesByB(opID, dateFrom, dateTo):
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root', password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute(f"""
             SELECT vehicle.operator_ID, COUNT(*), ROUND(SUM(pass.charge),2)
             FROM pass
             INNER JOIN vehicle ON vehicle.vehicle_ID = pass.vehicle_ID
             WHERE LEFT(pass.station_ID,2) = '{opID}' 
-            AND pass.timestamp BETWEEN '{dateFrom}' AND '{dateTo}' 
+            AND pass.pass_time BETWEEN '{dateFrom}' AND '{dateTo}' 
             AND vehicle.operator_ID <> '{opID}'
             GROUP BY vehicle.operator_ID 
         """)
@@ -227,4 +232,3 @@ def chargesByB(opID, dateFrom, dateTo):
         return None
     finally:
         cursor.close()
-
