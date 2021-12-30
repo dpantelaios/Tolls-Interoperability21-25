@@ -1,13 +1,16 @@
 import datetime
-from flask import Flask, request, jsonify, make_response 
+from flask import Flask, request, jsonify, make_response, Response 
 from flask_restful import Api, Resource
 import datetime
 import pandas as pd
 from backend import *
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from collections import OrderedDict
 import atexit
 
 scheduler = BackgroundScheduler()
+scheduler = AsyncIOScheduler(timezone='Europe/Athens')
 scheduler.add_job(func=refresh, trigger="interval", days=30)
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
@@ -240,6 +243,21 @@ class chargesBy(Resource):
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
 
+class insertPasses(Resource):
+    def get(self, source):
+        try:
+            if(insertPassesB(source)):   
+                status = 'ok'
+                statusCode = 200
+            else:
+                status = 'failed'
+                statusCode = 500
+        except:
+                status = 'failed'
+                statusCode = 500
+        finally:
+            return make_response(jsonify({'status': status}), statusCode)
+
 
 api.add_resource(healthcheck, '/interoperability/api/admin/healthcheck/')
 api.add_resource(passesAnalysis, '/interoperability/api/PassesAnalysis/<op1ID>/<op2ID>/<dateFrom>/<dateTo>/')
@@ -249,6 +267,7 @@ api.add_resource(resetStations, '/interoperability/api/admin/resetstations/')
 api.add_resource(resetVehicles, '/interoperability/api/admin/resetvehicles/')
 api.add_resource(passesCost, '/interoperability/api/PassesCost/<op1ID>/<op2ID>/<dateFrom>/<dateTo>/')
 api.add_resource(chargesBy, '/interoperability/api/ChargesBy/<opID>/<dateFrom>/<dateTo>/')
+api.add_resource(insertPasses,'/interoperability/api/admin/insertpasses/<source>')
 
 
 if __name__ == '__main__':
