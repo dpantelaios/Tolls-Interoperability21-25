@@ -1,14 +1,34 @@
 import mysql.connector
 import pandas as pd
+import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+import jwt
 
 standard = {
     'host': 'localhost', 
     'database': 'softeng', 
     'user': 'root', 
-    'password': 'insertyourpasshere', 
+    'password': '#1*killed*PC', 
     'port': 3306, 
     'auth_plugin': 'mysql_native_password'
 }
+
+def loginB(username):
+    try:   
+        connection = mysql.connector.connect(**standard)
+        cursor = connection.cursor() 
+        cursor.execute(f'''
+                             SELECT * FROM user 
+                             WHERE username = '{username}'
+        ''')
+        data = cursor.fetchone()
+        return  {"data": data, "count": len(data)}
+    except Exception as e:
+        print(e)
+        return None
+    finally:
+        cursor.close()
+
 
 def createDb():
     try:
@@ -24,12 +44,13 @@ def createDb():
     except Exception as e:
         print(e)
 
-
 def insertPassesB(source):
     try:
-        connection = mysql.connector.connect(**standard)
+        connection = mysql.connector.connect(host='localhost', database='softeng', user='root',  password='#1*killed*PC')
+        print("Connected")
         cursor = connection.cursor()
-        file_path= "..\\data"+"\\" +source
+        file_path= "data"+"\\" +source
+        print(file_path)
         csvdata = pd.read_csv(file_path, sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
@@ -115,7 +136,7 @@ def resetStationsB():
         cursor = connection.cursor()
         cursor.execute('DELETE FROM station')
         connection.commit()
-        csvdata = pd.read_csv( r"..\data\sampledata01_stations.csv" , sep=";")
+        csvdata = pd.read_csv( r"..\sampledata01\sampledata01_stations.csv" , sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             stationOp = row.stationID[:2]
@@ -136,7 +157,7 @@ def resetVehiclesB():
         cursor = connection.cursor()
         cursor.execute(' DELETE FROM vehicle')
         connection.commit()
-        csvdata = pd.read_csv(r"..\data\sampledata01_vehicles_100.csv", sep=";")
+        csvdata = pd.read_csv(r"..\sampledata01\sampledata01_vehicles_100.csv", sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             cursor.execute(f""" 
@@ -229,6 +250,47 @@ def chargesByB(opID, dateFrom, dateTo):
         data = cursor.fetchall()
         return {"data": data, "count": len(data)}
     except:
+        return None
+    finally:
+        cursor.close()
+
+def createUserB(username, password, type):
+    try:
+        connection = mysql.connector.connect(**standard)
+        cursor = connection.cursor()
+        cursor.execute(f""" 
+                SELECT* FROM user WHERE username = '{username}'
+        """)
+        if(len(cursor.fetchall()) == 0):
+            cursor.execute(f"""
+                INSERT INTO user(username, password, type) VALUES
+                ('{username}','{password}','{type}')
+            """)
+        else:
+            cursor.execute(f"""
+                UPDATE user SET password = '{password}' WHERE username = '{username}'
+            """)
+            
+        connection.commit()    
+        return True
+    except Exception as e:
+        print(e)
+        return False
+    finally:
+        cursor.close()
+
+
+def getUserTypeB(username):
+    try:
+        connection = mysql.connector.connect(**standard)
+        cursor = connection.cursor()
+        cursor.execute(f""" 
+                SELECT type FROM user WHERE username = '{username}'
+        """)   
+        data = cursor.fetchone()
+        return data[0]
+    except Exception as e:
+        print(e)
         return None
     finally:
         cursor.close()
