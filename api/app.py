@@ -12,10 +12,24 @@ import jwt
 from functools import wraps
 from urllib.parse import urlparse
 
-scheduler = BackgroundScheduler()
-scheduler = AsyncIOScheduler(timezone='Europe/Athens')
+blacklist=[]
+
+def token_cleaner():
+    global blacklist
+    temp = []
+    for token in blacklist:
+        try:
+            jwt.decode(token, app.config['SECRET_KEY'])
+            temp.append(token)
+        except:
+            continue
+    blacklist=temp.copy()
+    
+scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(func=refresh, trigger='interval', days=30)
+scheduler.add_job(func=token_cleaner, trigger='interval', minutes = 2)
 scheduler.start()
+
 atexit.register(lambda: scheduler.shutdown())
 
 app = Flask(__name__)
@@ -27,23 +41,28 @@ app.config['SECRET_KEY'] = 'se2125'
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
+        global blacklist
         token = None
         if 'access-token' in request.headers:
             token = request.headers['access-token']
 
         if not token:
             return make_response(jsonify({'message' : 'Token is missing!'}), 401)
-        try: 
-            data = jwt.decode(token, app.config['SECRET_KEY'])
-            current_user = data['user']
+        try:
+            if (token in blacklist): 
+                return make_response(jsonify({'message' : 'User has logged out!'}), 401)
+            else:
+                data = jwt.decode(token, app.config['SECRET_KEY'])
+                current_user = data['user']
         except:
             return make_response(jsonify({'message' : 'Token is invalid!'}), 401)
 
-        #return f(*args, **kwargs)
         return f(current_user, *args, **kwargs)
         
     return decorated
 
+
+    
 def checkdate(dateFrom, dateTo):
         if (
             (not dateFrom.isnumeric()) or\
@@ -125,8 +144,10 @@ class resetVehicles(Resource):
 timeFrmt = '%Y-%m-%d %H:%M:%S'
 
 class passesPerStation(Resource):
-    def get(self, stationID, dateFrom, dateTo):
+    @token_required
+    def get(current_user,self,stationID, dateFrom, dateTo):
       try:
+            print([stationID, dateFrom, dateTo])
             RequestTimestamp = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
             if (datatype and datatype !='json' and datatype != 'csv'):
@@ -167,7 +188,8 @@ class passesPerStation(Resource):
             return make_response(jsonify({'status': 'failed'}), 500)
 
 class passesAnalysis(Resource):
-    def get(self, op1ID, op2ID, dateFrom, dateTo):
+    @token_required
+    def get(current_user, self, op1ID, op2ID, dateFrom, dateTo):
         try:
             RequestTimestamp = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
@@ -207,7 +229,8 @@ class passesAnalysis(Resource):
             return make_response(jsonify({'status': 'failed'}), 500)
 
 class passesCost(Resource):
-    def get(self, op1ID, op2ID, dateFrom, dateTo):
+    @token_required
+    def get(current_user, self, op1ID, op2ID, dateFrom, dateTo):
         try:
             RequestTimestamp = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
@@ -238,7 +261,8 @@ class passesCost(Resource):
             return make_response(jsonify({'status': 'failed'}), 500)
 
 class chargesBy(Resource):
-    def get(self, opID, dateFrom, dateTo):
+    @token_required
+    def get(current_user, self, opID, dateFrom, dateTo):
         try:
             RequestTimestamp  = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
@@ -276,19 +300,26 @@ class chargesBy(Resource):
             return make_response(jsonify({'status': 'failed'}), 500)
 
 class insertPasses(Resource):
-    def get(self, source):
+    @token_required
+    def get(current_user, self, source):
         try:
+            current_user_type=getUserTypeB(current_user)
+            #print(current_user_type)
+            if not current_user_type == 'admin':
+                return make_response(jsonify({'message' : 'Cannot perform that function!'}), 401)
             if(insertPassesB(source)):   
                 status = 'ok'
                 statusCode = 200
+                return make_response(jsonify({'status': status}), statusCode)
             else:
                 status = 'failed'
                 statusCode = 500
+                return make_response(jsonify({'status': status}), statusCode)
         except:
                 status = 'failed'
                 statusCode = 500
-        finally:
-            return make_response(jsonify({'status': status}), statusCode)
+                return make_response(jsonify({'status': status}), statusCode)
+            
 
 class login(Resource):
     def post(self):
@@ -312,13 +343,21 @@ class login(Resource):
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
 
+class logout(Resource):
+    @token_required
+    def post(current_user, self):
+        global blacklist
+        token = request.form.get('access-token')
+        blacklist.append(token)
+        return make_response(jsonify({'Authenticate':'Logged out!'}),200)
+
 class createUser(Resource):
     @token_required
     def post(current_user, self):
         try:
             ##check authentication type==admin
             current_user_type=getUserTypeB(current_user)
-            print(current_user_type)
+            #print(current_user_type)
             if not current_user_type == 'admin':
                 return make_response(jsonify({'message' : 'Cannot perform that function!'}), 401)
             username = request.form.get('username')
@@ -338,7 +377,7 @@ class createUser(Resource):
                 status = 'failed'
                 statusCode = 500
                 return make_response(jsonify({'status': status}), statusCode)
-        
+
 
 
 
@@ -353,6 +392,9 @@ api.add_resource(chargesBy, '/interoperability/api/ChargesBy/<opID>/<dateFrom>/<
 api.add_resource(insertPasses,'/interoperability/api/admin/insertpasses/<source>')
 api.add_resource(login, '/interoperability/api/login')
 api.add_resource(createUser, '/interoperability/api/admin/createUser')
+api.add_resource(logout, '/interoperability/api/logout')
 
 if __name__ == '__main__':
-    app.run(port=9103, ssl_context=('cert.pem', 'key.pem'),debug=True) 
+    app.run(port=9103, ssl_context=('cert.pem', 'key.pem'), debug = True) 
+
+
