@@ -2,6 +2,8 @@ import argparse, requests
 import urllib3
 import csv
 import sys
+import pickle
+import json
 from termcolor import colored
 urllib3.disable_warnings()
  #pip3 install urllib3==1.23
@@ -54,6 +56,14 @@ def main():
     parser = MyParser()
     subparsers = parser.add_subparsers()
     
+    login_parser = subparsers.add_parser('login')
+    login_parser.set_defaults(func=login)
+    login_parser.add_argument('--username', type=str, required=True)
+    login_parser.add_argument('--password', type=str, required=True)
+
+    logout_parser = subparsers.add_parser('logout')
+    logout_parser.set_defaults(func=logout)
+
     healthcheck_parser = subparsers.add_parser('healthcheck')
     healthcheck_parser.set_defaults(func=healthcheck)
 
@@ -98,9 +108,11 @@ def main():
     chargesBy_parser.add_argument('--format', type=str,required=True)
 
     admin_parser = subparsers.add_parser('admin')
-    admin_parser.set_defaults(func=passesupd)
+    admin_parser.set_defaults(func=admin)
     admin_parser.add_argument('--passesupd', action="store_true")
     admin_parser.add_argument('--source', type=str,required=True)
+
+
 
     try:
        args = parser.parse_args()
@@ -109,13 +121,44 @@ def main():
         print("**")
         print(e)   
 
-    
 
-#change to https
+def read_token():
+    try:
+        with open('token.to','r') as f:
+           return f.read()
+    except:
+        return None
+
+def login (args):
+    body={'username': args.username, 'password': args.password}
+    response = requests.post("https://127.0.0.1:9103/interoperability/api/login", data=body, verify=False)
+    try:
+        ret = dict(response.json())
+        #print(ret['token'])  
+        with open('token.to','w') as f:
+            f.write(ret['token'])
+        #pip3 install urllib3==1.23
+        print(json.dumps({'Authenticate':'Successful login!'}))
+
+    except Exception as e:
+        #print(e)
+        print(response.json())
+
+def logout(args):
+    token = read_token()
+    if(token is None):
+        print(json.dumps({'Authenticate':'You must login first!'}))
+    else:
+        our_headers={'access-token': token}
+        body={'access-token': token}
+        response = requests.post("https://127.0.0.1:9103/interoperability/api/logout", headers=our_headers, data=body, verify=False)
+        print(response.json())
+
 def healthcheck(args):
     response = requests.get("https://127.0.0.1:9103/interoperability/api/admin/healthcheck/", verify=False)
     #pip3 install urllib3==1.23
     print(response.json())
+
 
 def resetpasses(args):
     response = requests.post("https://127.0.0.1:9103/interoperability/api/admin/resetpasses/", verify=False)
@@ -130,69 +173,104 @@ def resetvehicles(args):
     response = requests.post("https://127.0.0.1:9103/interoperability/api/admin/resetvehicles/", verify=False)
     print(response.json())
     
-def passesPerStation(args):
-    link = "https://127.0.0.1:9103/interoperability/api/PassesPerStation/" + args.station + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
-    print(link)
-    response = requests.get(link, verify=False)
-    print(response.status_code)
-    if args.format == "json":
-        print(response.json())
+def passesPerStation(args): #i removed try-except not needed?
+    token = read_token()
+
+    if(token is None):
+        print(json.dumps({'Authenticate':'You must login first!'}))
     else:
-        decoded_content = response.content.decode('utf-8')
-        cr = csv.reader(decoded_content.splitlines(), delimiter=';')
-        my_list = list(cr)
-        for row in my_list:
-            print(row)
+        our_headers={'access-token': token}
+        link = "https://127.0.0.1:9103/interoperability/api/PassesPerStation/" + args.station + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        response = requests.get(link, headers=our_headers, verify=False)
+        
+        if (response.status_code==200):
+            if args.format == "json":
+                print(response.json())
+            else:
+                decoded_content = response.content.decode('utf-8')
+                cr = csv.reader(decoded_content.splitlines(), delimiter=';')
+                my_list = list(cr)
+                for row in my_list:
+                    print(row)
+        else:
+            print(response.json())
 
 
 def passesAnalysis(args):
-    link = "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
-    print(link)
-    response = requests.get(link, verify=False)
-    print(response.status_code)
-    if args.format == "json":
-        print(response.json())
+    token = read_token()
+    
+    if(token is None):
+        print(json.dumps({'Authenticate':'You must login first!'}))
     else:
-        decoded_content = response.content.decode('utf-8')
-        cr = csv.reader(decoded_content.splitlines(), delimiter=';')
-        my_list = list(cr)
-        for row in my_list:
-            print(row)
+        our_headers={'access-token': token}
+        link = "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        response = requests.get(link, headers=our_headers, verify=False)
+        if (response.status_code==200):
+            if args.format == "json":
+                print(response.json())
+            else:
+                decoded_content = response.content.decode('utf-8')
+                cr = csv.reader(decoded_content.splitlines(), delimiter=';')
+                my_list = list(cr)
+                for row in my_list:
+                    print(row)
+        else:
+            print(response.json())
 
 def passesCost(args):
-    link = "https://127.0.0.1:9103/interoperability/api/PassesCost/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
-    print(link)
-    response = requests.get(link, verify=False)
-    print(response.status_code)
-    if args.format == "json":
-        print(response.json())
+    token = read_token()
+    if(token is None):
+        print(json.dumps({'Authenticate':'You must login first!'}))
     else:
-        decoded_content = response.content.decode('utf-8')
-        cr = csv.reader(decoded_content.splitlines(), delimiter=';')
-        my_list = list(cr)
-        for row in my_list:
-            print(row)
+        our_headers={'access-token': token}
+        link = "https://127.0.0.1:9103/interoperability/api/PassesCost/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        #print(link)
+        response = requests.get(link, headers=our_headers, verify=False)
+        #print(response.status_code)
+        if (response.status_code==200):
+            if args.format == "json":
+                print(response.json())
+            else:
+                decoded_content = response.content.decode('utf-8')
+                cr = csv.reader(decoded_content.splitlines(), delimiter=';')
+                my_list = list(cr)
+                for row in my_list:
+                    print(row)
+        else:
+            print(response.json())
 
 def chargesBy(args):
-    link = "https://127.0.0.1:9103/interoperability/api/ChargesBy/" + args.op1 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
-    print(link)
-    response = requests.get(link, verify=False)
-    print(response.status_code)
-    if args.format == "json":
-        print(response.json())
+    token = read_token()
+    if(token is None):
+        print(json.dumps({'Authenticate':'You must login first!'}))
     else:
-        decoded_content = response.content.decode('utf-8')
-        cr = csv.reader(decoded_content.splitlines(), delimiter=';')
-        my_list = list(cr)
-        for row in my_list:
-            print(row)
+        our_headers={'access-token': token}
+        link = "https://127.0.0.1:9103/interoperability/api/ChargesBy/" + args.op1 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        #print(link)
+        response = requests.get(link, headers=our_headers, verify=False)
+        #print(response.status_code)
+        if (response.status_code==200):
+            if args.format == "json":
+                print(response.json())
+            else:
+                decoded_content = response.content.decode('utf-8')
+                cr = csv.reader(decoded_content.splitlines(), delimiter=';')
+                my_list = list(cr)
+                for row in my_list:
+                    print(row)
+        else:
+            print(response.json())
 
-def passesupd(args):
+def admin(args):
     if(args.passesupd):
-        link="https://127.0.0.1:9103/interoperability/api/admin/insertpasses/"+args.source
-        response = requests.get(link, verify=False)
-        print(response.status_code)
-        print(response.json())
+        token = read_token()
+        if(token is None):
+            print(json.dumps({'Authenticate':'You must login first!'}))
+        else:
+            our_headers={'access-token': token}
+            link="https://127.0.0.1:9103/interoperability/api/admin/insertpasses/"+args.source
+            response = requests.get(link, headers=our_headers, verify=False)
+            print(response.json())
 
 if __name__ == '__main__':
     main()
