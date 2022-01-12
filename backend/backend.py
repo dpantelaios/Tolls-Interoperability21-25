@@ -13,6 +13,7 @@ standard = {
     'auth_plugin': 'mysql_native_password'
 }
 
+
 def loginB(username):
     try:   
         connection = mysql.connector.connect(**standard)
@@ -46,7 +47,7 @@ def createDb():
 
 def insertPassesB(source):
     try:
-        connection = mysql.connector.connect(host='localhost', database='softeng', user='root',  password='#1*killed*PC')
+        connection = mysql.connector.connect(**standard)
         print("Connected")
         cursor = connection.cursor()
         file_path= "data"+"\\" +source
