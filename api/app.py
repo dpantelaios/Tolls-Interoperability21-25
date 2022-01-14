@@ -379,7 +379,21 @@ class createUser(Resource):
                 return make_response(jsonify({'status': status}), statusCode)
 
 
-
+class checkUser(Resource):
+    @token_required
+    def post(current_user, self):
+        check=checkUserB(request.form.get('username'))
+        if(check==0):
+            result = 'failure'
+            message = 'User does not exist'
+            return make_response(jsonify({'result': result, 'message': message}), 200)
+        elif(check==1):
+            result = 'success'
+            message = 'User exists'
+            return make_response(jsonify({'result': result, 'message': message}), 200)  
+        status = 'failed'
+        statusCode = 500
+        return make_response(jsonify({'status': status}), statusCode)
 
 api.add_resource(healthcheck, '/interoperability/api/admin/healthcheck/')
 api.add_resource(passesAnalysis, '/interoperability/api/PassesAnalysis/<op1ID>/<op2ID>/<dateFrom>/<dateTo>/')
@@ -393,8 +407,8 @@ api.add_resource(insertPasses,'/interoperability/api/admin/insertpasses/<source>
 api.add_resource(login, '/interoperability/api/login')
 api.add_resource(createUser, '/interoperability/api/admin/createUser')
 api.add_resource(logout, '/interoperability/api/logout')
+api.add_resource(checkUser, '/interoperability/api/admin/checkUser')
 
 if __name__ == '__main__':
     app.run(port=9103, ssl_context=('cert.pem', 'key.pem'), debug = True) 
-
 
