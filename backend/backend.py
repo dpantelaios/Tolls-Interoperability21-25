@@ -295,3 +295,21 @@ def getUserTypeB(username):
         return None
     finally:
         cursor.close()
+
+def checkUserB(username):
+    try:
+        connection = mysql.connector.connect(**standard)
+        cursor = connection.cursor()
+        cursor.execute(f""" 
+                SELECT * FROM user WHERE username = '{username}'
+        """)   
+        data = cursor.fetchone()
+        if(data is not None):
+            return 1
+        else:
+            return 0
+    except Exception as e:
+        print(e)
+        return -1
+    finally:
+        cursor.close()
