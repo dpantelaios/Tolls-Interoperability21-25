@@ -108,10 +108,16 @@ def main():
     chargesBy_parser.add_argument('--format', type=str,required=True)
 
     admin_parser = subparsers.add_parser('admin')
+#group = admin_parser.add_mutually_exclusive_group(required=True) #At least one is required
     admin_parser.set_defaults(func=admin)
-    admin_parser.add_argument('--passesupd', action="store_true")
-    admin_parser.add_argument('--source', type=str,required=True)
-
+    admin_parser.add_argument('--usermod', action = 'store_true')
+    admin_parser.add_argument('--passesupd', action = 'store_true')
+    admin_parser.add_argument('--users', type = str)
+    admin_parser.add_argument('--username', required = '--usermod' in sys.argv)
+    admin_parser.add_argument('--passw', required = '--usermod' in sys.argv)
+#add --usertype giati o veskouk den to exei alla emeis to xreiazomaste logo ilopoiisis
+    admin_parser.add_argument('--usertype', required = '--usermod' in sys.argv)
+    admin_parser.add_argument('--source', required = '--passesupd' in sys.argv)
 
 
     try:
@@ -137,7 +143,7 @@ def login (args):
         #print(ret['token'])  
         with open('token.to','w') as f:
             f.write(ret['token'])
-        #pip3 install urllib3==1.23
+        #pip3 instalcl urllib3==1.23
         print(json.dumps({'Authenticate':'Successful login!'}))
 
     except Exception as e:
@@ -262,16 +268,27 @@ def chargesBy(args):
             print(response.json())
 
 def admin(args):
-    if(args.passesupd):
-        token = read_token()
-        if(token is None):
+    token = read_token()
+    if(token is None):
             print(json.dumps({'Authenticate':'You must login first!'}))
-        else:
-            our_headers={'access-token': token}
-            link="https://127.0.0.1:9103/interoperability/api/admin/insertpasses/"+args.source
-            response = requests.get(link, headers=our_headers, verify=False)
-            print(response.json())
+    elif(args.passesupd):
+        our_headers={'access-token': token}
+        link="https://127.0.0.1:9103/interoperability/api/admin/insertpasses/"+args.source
+        response = requests.get(link, headers=our_headers, verify=False)
+        print(response.json())
+    elif(args.usermod):
+        our_headers={'access-token': token}
+        body={'username': args.username, 'password': args.passw, 'user_type': args.usertype}
+        link="https://127.0.0.1:9103/interoperability/api/admin/createUser"
+        response = requests.post(link, headers=our_headers, data=body, verify=False)
+        print(response.json()) 
+## discuss else if(args.users): emfanisi katastasis xristi alla den kratame poioi einai logged in kai den exoume to token pou tou dosame
+    elif(args.users):
+        our_headers={'access-token': token}
+        body={'username': args.users}
+        link="https://127.0.0.1:9103/interoperability/api/admin/checkUser"
+        response = requests.post(link, headers=our_headers, data=body, verify=False)
+        print(response.json())
 
 if __name__ == '__main__':
     main()
-
