@@ -48,6 +48,8 @@ class MyParser(argparse.ArgumentParser):
 
         print(colored("admin", 'blue'))
         print("\t --passesupd --source")
+        print("\t --usermod --username --passw --usertype")
+        print("\t --users")
         #self.print_help()
         sys.exit(2)
 
