@@ -1,0 +1,148 @@
+<html>
+    <title>
+        Interoperability System
+    </title>
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+        form {border: 3px solid #f1f1f1;}
+        
+        input[type=text], input[type=password] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+        }
+        
+        button {
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+        }
+        
+        button:hover {
+          opacity: 0.8;
+        }
+        
+        .cancelbtn {
+          width: auto;
+          padding: 10px 18px;
+          background-color: #f44336;
+        }
+        
+        .imgcontainer {
+          text-align: center;
+          margin: 24px 0 12px 0;
+        }
+        
+        img.avatar {
+          width: 40%;
+          border-radius: 50%;
+        }
+        
+        .container {
+          padding: 16px;
+        }
+        
+        span.psw {
+          float: right;
+          padding-top: 16px;
+        }
+        /* Change styles for span and cancel button on extra small screens */
+        @media screen and (max-width: 300px) {
+          span.psw {
+             display: block;
+             float: none;
+          }
+          .cancelbtn {
+             width: 100%;
+          }
+        }
+        </style>
+        <head>
+        </head>
+        <body style = "background-color: gainsboro;">
+        <h1>Σύστημα Διαλειτουργικότητας</h1>
+        <h2>Δημιουργία Χρήστη</h2>
+        <img src="./templates/road.jpg" >
+        
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+        </script>
+        
+
+        <form onsubmit = "javascript:doClick(); return false;" method="post" name = "user_type">
+        
+          <div class="container">
+                <label for="user_types"><b>Choose user type:</b></label>
+                <br>
+                <select name="user_types" id="user_types">
+                  <option value="authority">Υπουργείο Μεταφορών</option>
+                  <option value="operator">Λειτουργός</option>
+                  <option value="admin">Διαχειριστής</option>
+                  
+                </select>
+                <br><br>
+            
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" id = "uname" required>
+        
+            <label for="psw"><b>Password</b></label>
+            <input type ="password" placeholder="Enter Password" name="psw" id = "psw" required>
+                
+            <button type="submit" onclick="doClick(); return false;" id = "submitBtn">Create User</button>
+          </div>
+        </form>
+
+
+        <script>
+          
+            document.getElementById("submitBtn").addEventListener("click", doClick);
+            function doClick() {
+              
+              var nameValue = document.getElementById("uname").value;
+              //document.write(nameValue + " ");
+            
+              var passwrd = document.getElementById("psw").value;
+              var usr_type = document.user_type.user_types.selectedIndex;
+              if(usr_type == '0'){
+                usr_type = "ministry";
+              }
+              else if(usr_type == '1'){
+                usr_type = "operator";
+              }
+              else if(usr_type == '2'){
+                usr_type = "admin";
+              }
+              
+              
+              var yourUrl = "https://localhost:9103/interoperability/api/admin/createUser"
+              var params = 'username=' + nameValue + '&password=' + passwrd + '&user_type=' + usr_type;
+              //var params = 'username=admin&password=freepasses4all';
+
+              var xhr = new XMLHttpRequest();
+              //var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJleHAiOjE2NDIzNzYyNzJ9.4gFLzAMhHhQMILeE-7mXcvP80DqWJtVgsEvIl7DAz_M';
+              var token = sessionStorage.getItem("token");
+              xhr.open("POST", yourUrl, true);
+              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+              xhr.setRequestHeader("access-token", token);
+              xhr.send(params);
+
+              
+              var mydata;
+
+              var json;
+
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200){
+                      document.write("Created Successfully")
+
+                }
+              };
+            }
+            
+        </script>  
