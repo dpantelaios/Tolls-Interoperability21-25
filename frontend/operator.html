@@ -1,0 +1,170 @@
+<html>
+    
+    <title>
+        Interoperability System
+    </title>
+    <style>
+      button {
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 30%;
+        }
+        
+        button:hover {
+          opacity: 0.8;
+        }
+      
+        input[type="submit"]{
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 30%;
+        }
+
+        input:hover{
+          opacity: 0.8;
+        }
+      </style>
+    <head>
+        </head>
+        <p id ="back"> <button type = "button" id = "lgout">Logout</button> </p>
+        <body style = "background-color: gainsboro;">
+        <h1>Σύστημα Διαλειτουργικότητας</h1>
+        <h2>Λειτουργός Αυτοκινητόδρομου</h2>
+        
+        <form action="PassesAnalysis.html" method = "get">
+        
+          <div class="container">
+                <label for="op_1"><b>Λειτουργός σταθμών: </b></label>
+                <br>
+                <select name="op_1" id="op_1">
+                  <option value="AO">Αττική Οδός</option>
+                  <option value="GF">Γέφυρα</option>
+                  <option value="EG">Εγνατία Οδός</option>
+                  <option value="KO">Κεντρική Οδός</option>
+                  <option value="MR">Μορέας</option>
+                  <option value="NE">Νέα Οδός</option>
+                  <option value="OO">Ολυμπία Οδός</option>
+                  
+                </select>
+          </div>
+          <div class="container">
+            <label for="op_2"><b>Διαχειριστής tag: </b></label>
+            <br>
+            <select name="op_2" id="op_2">
+              <option value="AO">Αττική Οδός</option>
+              <option value="GF">Γέφυρα</option>
+              <option value="EG">Εγνατία Οδός</option>
+              <option value="KO">Κεντρική Οδός</option>
+              <option value="MR">Μορέας</option>
+              <option value="NE">Νέα Οδός</option>
+              <option value="OO">Ολυμπία Οδός</option>
+              
+            </select>
+          </div>
+          <label for = "startDate"><b>Αρχική Ημερομηνία:</b></label>
+          <br>
+          <input type = "date" id = "startDate" name = "startDate">
+          <br>
+          <label for = "endDate"><b>Τελική Ημερομηνία:</b></label>
+          <br>
+          <input type = "date" id = "endDate" name = "endDate">
+          <br>
+          <input type = "submit" name = "PassesAnalysis"  value = "Get passes analysis" id = "pAnalysis">
+          <input type = "submit" name = "PassesCost"  formaction="PassesCost.html" value = "Get passes cost" id = "pCost">
+         
+        </form>
+
+        <script>
+            document.getElementById("pAnalysis").addEventListener("click", passesAnalysis);
+            document.getElementById("pCost").addEventListener("click", passesCost);
+            function passesAnalysis() {
+                  var w1 = window.location.href = 'PassesAnalysis.html';
+                  window.open(w1);
+               }
+            function passesCost(){
+                var w = window.location.href = 'PassesCost.html';
+                window.open(w);
+            }
+        </script>
+        <form action="ChargesBy.html" method = "get">
+        
+            <div class="container">
+                  <label for="op"><b>Λειτουργός σταθμών: </b></label>
+                  <br>
+                  <select name="op" id="op">
+                    <option value="AO">Αττική Οδός</option>
+                    <option value="GF">Γέφυρα</option>
+                    <option value="EG">Εγνατία Οδός</option>
+                    <option value="KO">Κεντρική Οδός</option>
+                    <option value="MR">Μορέας</option>
+                    <option value="NE">Νέα Οδός</option>
+                    <option value="OO">Ολυμπία Οδός</option>
+                    
+                  </select>
+            </div>
+            
+            <label for = "startDate"><b>Starting date:</b></label>
+            <br>
+            <input type = "date" id = "startDate" name = "startDate">
+            <br>
+            <label for = "endDate"><b>Ending date:</b></label>
+            <br>
+            <input type = "date" id = "endDate" name = "endDate">
+            <br>
+            <input type = "submit" name = "ChargesBy" value = "Get charges" id = "chargesBy">
+           
+          </form>
+          <script>
+            document.getElementById("chargesBy").addEventListener("click", chargesby);
+            document.getElementById("lgout").addEventListener("click", logoutFunction);
+            function chargesby() {
+                  var w = window.location.href = 'ChargesBy.html';
+                  window.open(w);
+               }
+            function logoutFunction(){
+                //document.write("logout pressed");
+                var yourUrl;
+                yourUrl = "https://localhost:9103/interoperability/api/logout"
+                var xhr = new XMLHttpRequest();
+                
+
+                var token = sessionStorage.getItem("token");
+                var params = 'access-token=' + token;
+
+                xhr.open("POST", yourUrl, true);
+
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                xhr.setRequestHeader("access-token", token);
+                xhr.send(params);
+                var json;
+
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200){
+ 
+                      
+                      document.write(xhr.responseText);
+                      setTimeout(doSomething, 190000);
+
+                      function doSomething() {
+                      //do whatever you want here
+                          document.write("Logged out Successfully");
+                       }
+                    //  document.write("Logged out Successfully")
+                      var w1 = window.location.href = 'https://localhost:9103/interoperability/api';
+                      window.open(w1);
+                     
+                  }
+                }
+              }
+        </script>
+        </body>
+
+</html>
