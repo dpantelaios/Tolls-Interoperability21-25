@@ -1,5 +1,5 @@
 import datetime
-from flask import Flask, request, jsonify, make_response, Response 
+from flask import Flask, request, jsonify, make_response, Response,  render_template
 from flask_restful import Api, Resource
 import datetime
 import pandas as pd
@@ -54,6 +54,7 @@ def token_required(f):
             else:
                 data = jwt.decode(token, app.config['SECRET_KEY'])
                 current_user = data['user']
+
         except:
             return make_response(jsonify({'message' : 'Token is invalid!'}), 401)
 
@@ -93,6 +94,43 @@ class healthcheck(Resource):
                 statusCode = 500
         finally:
             return make_response(jsonify(OrderedDict({'status': status,'dbconnection': dbconnection})), statusCode)
+
+
+@app.route('/interoperability/api/createUser.html', methods = ['GET'])
+def gotocreateuser():
+    return render_template('./createUser.html')
+
+@app.route('/interoperability/api/PassesPerStation.html', methods = ['GET'])
+def gotopassesperstation():
+    return render_template('./PassesPerStation.html')
+
+@app.route('/interoperability/api/PassesAnalysis.html', methods = ['GET'])
+def gotopassesanalysis():
+    return render_template('./PassesAnalysis.html')
+
+@app.route('/interoperability/api/PassesCost.html', methods = ['GET'])
+def gotopassescost():
+    return render_template('./PassesCost.html')
+
+@app.route('/interoperability/api/ChargesBy.html', methods = ['GET'])
+def gotochargesby():
+    return render_template('./ChargesBy.html')
+
+@app.route('/interoperability/api/operator.html')
+def gotooperator():
+    return render_template('./operator.html')
+
+@app.route('/interoperability/api/administrator.html')
+def gotoadministrator():
+    return render_template('./administrator.html')
+
+@app.route('/interoperability/api/ministry.html')
+def gotoministry():
+    return render_template('./ministry.html')
+
+@app.route('/interoperability/api/')
+def gotohtml():
+    return render_template('./loginForm.html')
 
 class resetPasses(Resource):
     def post(self):
@@ -200,6 +238,7 @@ class passesAnalysis(Resource):
             dateFrom = dateFrom[:4] + '-' + dateFrom[4:6] + '-' + dateFrom[6:]+' 00:00:00'
             dateTo = dateTo[:4] + '-' + dateTo[4:6] + '-' + dateTo[6:]+' 23:59:59'
             ret = passesAnalysisB(op1ID, op2ID, dateFrom, dateTo)
+            print(ret)
             if (ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
             count = ret['count']
@@ -303,7 +342,7 @@ class insertPasses(Resource):
     @token_required
     def get(current_user, self, source):
         try:
-            current_user_type=getUserTypeB(current_user)
+            current_user_type = getUserTypeB(current_user)
             #print(current_user_type)
             if not current_user_type == 'admin':
                 return make_response(jsonify({'message' : 'Cannot perform that function!'}), 401)
@@ -326,8 +365,11 @@ class login(Resource):
         try:
             username = request.form.get('username')
             password = request.form.get('password')
-            if not username or not password:
-                 return make_response(jsonify({'Authenticate' : 'Login required!'}), 401)
+            #print(generate_password_hash(password, method='sha256'))
+            if not username:
+                 return make_response(jsonify({'Authenticate' : 'USERNAMEEEE Login required!'}), 401)
+            if not password:
+                 return make_response(jsonify({'Authenticate' : 'password Login required!'}), 401)
             ret = loginB(username)
             if(ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
@@ -337,7 +379,7 @@ class login(Resource):
             data = ret['data']
             if check_password_hash(data[2], password):
                 token = jwt.encode({'user' : data[1], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-                return jsonify({'token' : token.decode('UTF-8')})
+                return jsonify({'token' : token.decode('UTF-8'), 'type' : data[0]})
             return make_response(jsonify({'Authenticate':'Wrong Password!'}), 401 )
         except Exception as e:
             print(e)
@@ -345,7 +387,9 @@ class login(Resource):
 
 class logout(Resource):
     @token_required
+    
     def post(current_user, self):
+        print("Called")
         global blacklist
         token = request.form.get('access-token')
         blacklist.append(token)
@@ -356,7 +400,7 @@ class createUser(Resource):
     def post(current_user, self):
         try:
             ##check authentication type==admin
-            current_user_type=getUserTypeB(current_user)
+            current_user_type = getUserTypeB(current_user)
             #print(current_user_type)
             if not current_user_type == 'admin':
                 return make_response(jsonify({'message' : 'Cannot perform that function!'}), 401)
