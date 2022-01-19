@@ -185,6 +185,11 @@ class passesPerStation(Resource):
     @token_required
     def get(current_user,self,stationID, dateFrom, dateTo):
       try:
+          
+            current_user_type = getUserTypeB(current_user)
+            if(current_user_type != 'ministry' and current_user_type != 'admin'):
+                return make_response(jsonify({'message' : 'Operation not allowed for current user'}), 401)
+
             print([stationID, dateFrom, dateTo])
             RequestTimestamp = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
@@ -237,8 +242,14 @@ class passesAnalysis(Resource):
                 return make_response(jsonify({'status': 'failed'}), 400)    
             dateFrom = dateFrom[:4] + '-' + dateFrom[4:6] + '-' + dateFrom[6:]+' 00:00:00'
             dateTo = dateTo[:4] + '-' + dateTo[4:6] + '-' + dateTo[6:]+' 23:59:59'
+            
+            current_user_type = getUserTypeB(current_user)
+            if(current_user_type != op1ID and current_user_type != op2ID and current_user_type!='admin'):
+                return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
+            
             ret = passesAnalysisB(op1ID, op2ID, dateFrom, dateTo)
-            print(ret)
+            #print(ret)
+
             if (ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
             count = ret['count']
@@ -279,6 +290,10 @@ class passesCost(Resource):
                 return make_response(jsonify({'status': 'failed'}), 400)
             dateFrom = dateFrom[:4] + '-' + dateFrom[4:6] + '-' + dateFrom[6:]+' 00:00:00'
             dateTo = dateTo[:4] + '-' + dateTo[4:6] + '-' + dateTo[6:]+' 23:59:59'
+
+            current_user_type = getUserTypeB(current_user)
+            if(current_user_type != op1ID and current_user_type != op2ID and current_user_type != 'admin'):
+                return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
             ret = passesCostB(op1ID, op2ID, dateFrom, dateTo)
             if (ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
@@ -312,6 +327,10 @@ class chargesBy(Resource):
             dateFrom = dateFrom[:4] + '-' + dateFrom[4:6] + '-' + dateFrom[6:] +' 00:00:00'
             dateTo = dateTo[:4] + '-' + dateTo[4:6] + '-' + dateTo[6:] + ' 23:59:59'
             ret = chargesByB(opID, dateFrom, dateTo)
+
+            current_user_type = getUserTypeB(current_user)
+            if(current_user_type != opID and current_user_type != 'admin'):
+                return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
             if (ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
             count = ret['count']
@@ -367,9 +386,9 @@ class login(Resource):
             password = request.form.get('password')
             #print(generate_password_hash(password, method='sha256'))
             if not username:
-                 return make_response(jsonify({'Authenticate' : 'USERNAMEEEE Login required!'}), 401)
+                 return make_response(jsonify({'Authenticate' : 'Login required!'}), 401)
             if not password:
-                 return make_response(jsonify({'Authenticate' : 'password Login required!'}), 401)
+                 return make_response(jsonify({'Authenticate' : 'Login required!'}), 401)
             ret = loginB(username)
             if(ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
@@ -387,9 +406,8 @@ class login(Resource):
 
 class logout(Resource):
     @token_required
-    
     def post(current_user, self):
-        print("Called")
+        #print("Called")
         global blacklist
         token = request.form.get('access-token')
         blacklist.append(token)
@@ -426,6 +444,10 @@ class createUser(Resource):
 class checkUser(Resource):
     @token_required
     def post(current_user, self):
+        current_user_type = getUserTypeB(current_user)
+        if(current_user_type != 'admin'):
+            return make_response(jsonify({'message' : 'Cannot perform that function!'}), 401)
+        
         check=checkUserB(request.form.get('username'))
         if(check==0):
             result = 'failure'
