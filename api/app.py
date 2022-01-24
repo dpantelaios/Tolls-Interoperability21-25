@@ -326,24 +326,40 @@ class chargesBy(Resource):
                 return make_response(jsonify({'status': 'failed'}), 400)
             dateFrom = dateFrom[:4] + '-' + dateFrom[4:6] + '-' + dateFrom[6:] +' 00:00:00'
             dateTo = dateTo[:4] + '-' + dateTo[4:6] + '-' + dateTo[6:] + ' 23:59:59'
-            ret = chargesByB(opID, dateFrom, dateTo)
+
 
             current_user_type = getUserTypeB(current_user)
             if(current_user_type != opID and current_user_type != 'admin'):
                 return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
+            
+            ret = chargesByB(opID, dateFrom, dateTo)
+            
             if (ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
-            count = ret['count']
-            if (not count):
+            is_owed_count = ret['is_owed_count']
+            ows_count=ret['ows_count']
+            if (not is_owed_count or not ows_count):
                 return make_response(jsonify({'status': 'failed'}), 402)
-            data = ret['data']
+
+            
+            is_owed_data = ret['is_owed_data']
+            ows_data=ret['ows_data']
             PPOList = []
-            for row in data:            
+            ows=0
+            for row in is_owed_data:
+                for find_ows in ows_data:
+                    if(row[0]==find_ows[0]):
+                        ows=find_ows[2]
+                
+                is_owed = round(row[2]-ows, 2)
+                if is_owed<0:
+                    is_owed=0
+
                 listObj = OrderedDict()
                 if datatype == 'csv':
-                    listObj = {'op_ID': opID, 'RequestTimestamp':RequestTimestamp , 'PeriodFrom': dateFrom[:10], 'PeriodTo': dateTo[:10],'VisitingOperator': row[0],'NumberOfPasses':row[1], 'PassesCost':row[2]}
+                    listObj = {'op_ID': opID, 'RequestTimestamp':RequestTimestamp , 'PeriodFrom': dateFrom[:10], 'PeriodTo': dateTo[:10],'VisitingOperator': row[0],'NumberOfPasses':row[1], 'PassesCost':is_owed}
                 else:
-                    listObj = {'VisitingOperator': row[0],'NumberOfPasses':row[1], 'PassesCost':row[2]}
+                    listObj = {'VisitingOperator': row[0],'NumberOfPasses':row[1], 'PassesCost':is_owed}
                 PPOList.append(listObj) 
             if datatype == 'csv':
                 pdObjR = pd.DataFrame.from_records(PPOList)
