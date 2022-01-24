@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "71e5ceab-6aa7-4fa1-aa6f-e1ee60f9fec7",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login_operator_EG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"operator_token_EG\", jsonData.token);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "alexmoiraj",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "code",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_operator_AO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"operator_token_AO\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "alex",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "code",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passes_analysis_operator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Header\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.op1_ID).to.eql(\"AO\");\r",
+							"    pm.expect(jsonData.op2_ID).to.eql(\"EG\");\r",
+							"    pm.expect(jsonData.PeriodFrom).to.eql(\"2019-01-01\");\r",
+							"    pm.expect(jsonData.PeriodTo).to.eql(\"2019-01-31\");\r",
+							"    pm.expect(jsonData.NumberOfPasses).to.eql(8);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"PassesList\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.PassesList[2].PassIndex).to.eql(3);\r",
+							"    pm.expect(jsonData.PassesList[2].PassID).to.eql(\"PVJ3943516\");\r",
+							"    pm.expect(jsonData.PassesList[2].StationID).to.eql(\"AO15\");\r",
+							"    pm.expect(jsonData.PassesList[2].TimeStamp).to.eql(\"2019-01-06 12:54:00\");\r",
+							"    pm.expect(jsonData.PassesList[2].VehicleID).to.eql(\"XE59BZM26378\");\r",
+							"    pm.expect(jsonData.PassesList[2].Charge).to.eql(2.8);\r",
+							"    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{operator_token_AO}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesAnalysis/AO/EG/20190101/20190131/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesAnalysis",
+						"AO",
+						"EG",
+						"20190101",
+						"20190131",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passes_analysis_for_other_users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expected denial\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Retrieving data for other users is not allowed!\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{operator_token_AO}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesAnalysis/OO/EG/20201208/20211230/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesAnalysis",
+						"OO",
+						"EG",
+						"20201208",
+						"20211230",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passes_cost_operator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expected passes cost from GF to AO\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.PassesCost).to.eql(28);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{operator_token_AO}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesCost/AO/GF/20210101/20210131/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesCost",
+						"AO",
+						"GF",
+						"20210101",
+						"20210131",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passes_cost_for_other_users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expected denial\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Retrieving data for other users is not allowed!\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{operator_token_AO}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesCost/OO/EG/20201208/20211230/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesCost",
+						"OO",
+						"EG",
+						"20201208",
+						"20211230",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passes_cost_operator_alternative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expected passes cost from GF to AO January 2020\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.PassesCost).to.eql(33.6);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{operator_token_AO}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesCost/AO/GF/20200101/20200131/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesCost",
+						"AO",
+						"GF",
+						"20200101",
+						"20200131",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
