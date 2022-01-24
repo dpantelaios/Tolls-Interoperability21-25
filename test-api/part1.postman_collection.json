@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "b8384a61-a293-4720-bee0-068ffc5134e1",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "healthcheck",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/admin/healthcheck/",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"admin",
+						"healthcheck",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_admin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"admin_token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "freepasses4all",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "admin",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "freepasses4all",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{admin_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "themis",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "prop",
+							"type": "text"
+						},
+						{
+							"key": "user_type",
+							"value": "operator",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:9103//interoperability/api/admin/createUser",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"",
+						"interoperability",
+						"api",
+						"admin",
+						"createUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_user_not_by_admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expected denial, trying to create user not by an admin\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Cannot perform that function!\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{operator_token_AO}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "elarabi2",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "valbuena",
+							"type": "text"
+						},
+						{
+							"key": "user_type",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:9103//interoperability/api/admin/createUser",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"",
+						"interoperability",
+						"api",
+						"admin",
+						"createUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetpasses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103//interoperability/api/admin/resetpasses/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"",
+						"interoperability",
+						"api",
+						"admin",
+						"resetpasses",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insertpasses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{admin_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103//interoperability/api/admin/insertpasses/sampledata01_passes100_8000.csv",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"",
+						"interoperability",
+						"api",
+						"admin",
+						"insertpasses",
+						"sampledata01_passes100_8000.csv"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
