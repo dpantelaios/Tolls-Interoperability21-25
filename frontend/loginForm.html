@@ -143,14 +143,15 @@
                           var w1 = window.location.href = 'administrator.html';
                           window.open(w1)
                       }
-                      else if(type == "operator"){
+                      else if(type == "ministry"){
                           //document.writeln(json.type);
                           var w2 = window.location.href = 'operator.html';
                           window.open(w2);
                       }
                       else{
+                          sessionStorage.setItem("operator", type);
                           //document.writeln(json.type);
-                          var w3 = window.location.href = 'ministry.html';
+                          var w3 = window.location.href = 'operator.html';
                           window.open(w3);
                       }
                     }

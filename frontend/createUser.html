@@ -78,12 +78,18 @@
         <form onsubmit = "javascript:doClick(); return false;" method="post" name = "user_type">
         
           <div class="container">
-                <label for="user_types"><b>Choose user type:</b></label>
+                <label for="user_types"><b>Επιλογή είδους χρήστη:</b></label>
                 <br>
                 <select name="user_types" id="user_types">
-                  <option value="authority">Υπουργείο Μεταφορών</option>
-                  <option value="operator">Λειτουργός</option>
                   <option value="admin">Διαχειριστής</option>
+                  <option value="authority">Υπουργείο Μεταφορών</option>
+                  <option value="AO">Αττική Οδός</option>
+                  <option value="EG">Εγνατία Οδός</option>
+                  <option value="GF">Γέφυρα</option>
+                  <option value="KO">Κεντρική Οδός</option>
+                  <option value="MR">Μορέας</option>
+                  <option value="NE">Νέα Οδός</option>
+                  <option value="OO">Ολυμπία Οδός</option>
                   
                 </select>
                 <br><br>
@@ -110,13 +116,31 @@
               var passwrd = document.getElementById("psw").value;
               var usr_type = document.user_type.user_types.selectedIndex;
               if(usr_type == '0'){
-                usr_type = "ministry";
+                usr_type = "admin";
               }
               else if(usr_type == '1'){
-                usr_type = "operator";
+                usr_type = "ministry";
               }
               else if(usr_type == '2'){
-                usr_type = "admin";
+                usr_type = "AO";
+              }
+              else if(usr_type == '3'){
+                usr_type = "EG";
+              }
+              else if(usr_type == '4'){
+                usr_type = "GF";
+              }
+              else if(usr_type == '5'){
+                usr_type = "KO";
+              }
+              else if(usr_type == '6'){
+                usr_type = "MR";
+              }
+              else if(usr_type == '7'){
+                usr_type = "NE";
+              }
+              else if(usr_type == '8'){
+                usr_type = "OO";
               }
               
               

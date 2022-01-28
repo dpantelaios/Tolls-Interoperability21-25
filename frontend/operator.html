@@ -39,15 +39,16 @@
         <h1>Σύστημα Διαλειτουργικότητας</h1>
         <h2>Λειτουργός Αυτοκινητόδρομου</h2>
         
-        <form action="PassesAnalysis.html" method = "get">
+        <form onsubmit = "return false" method = "get">
         
           <div class="container">
                 <label for="op_1"><b>Λειτουργός σταθμών: </b></label>
                 <br>
                 <select name="op_1" id="op_1">
+
                   <option value="AO">Αττική Οδός</option>
-                  <option value="GF">Γέφυρα</option>
                   <option value="EG">Εγνατία Οδός</option>
+                  <option value="GF">Γέφυρα</option>
                   <option value="KO">Κεντρική Οδός</option>
                   <option value="MR">Μορέας</option>
                   <option value="NE">Νέα Οδός</option>
@@ -59,14 +60,14 @@
             <label for="op_2"><b>Διαχειριστής tag: </b></label>
             <br>
             <select name="op_2" id="op_2">
-              <option value="AO">Αττική Οδός</option>
-              <option value="GF">Γέφυρα</option>
-              <option value="EG">Εγνατία Οδός</option>
-              <option value="KO">Κεντρική Οδός</option>
-              <option value="MR">Μορέας</option>
-              <option value="NE">Νέα Οδός</option>
-              <option value="OO">Ολυμπία Οδός</option>
-              
+                <option value="AO">Αττική Οδός</option>
+                <option value="EG">Εγνατία Οδός</option>
+                <option value="GF">Γέφυρα</option>
+                <option value="KO">Κεντρική Οδός</option>
+                <option value="MR">Μορέας</option>
+                <option value="NE">Νέα Οδός</option>
+                <option value="OO">Ολυμπία Οδός</option>
+                
             </select>
           </div>
           <label for = "startDate"><b>Αρχική Ημερομηνία:</b></label>
@@ -78,31 +79,51 @@
           <input type = "date" id = "endDate" name = "endDate">
           <br>
           <input type = "submit" name = "PassesAnalysis"  value = "Get passes analysis" id = "pAnalysis">
-          <input type = "submit" name = "PassesCost"  formaction="PassesCost.html" value = "Get passes cost" id = "pCost">
+          <input type = "submit" name = "PassesCost"  onsubmit = "return false" value = "Get passes cost" id = "pCost">
          
         </form>
 
+        <p id = "msg"></p>
+        <p id = "test"></p>
+
         <script>
+
             document.getElementById("pAnalysis").addEventListener("click", passesAnalysis);
             document.getElementById("pCost").addEventListener("click", passesCost);
+            var opID = sessionStorage.getItem("operator");
             function passesAnalysis() {
-                  var w1 = window.location.href = 'PassesAnalysis.html';
-                  window.open(w1);
+                  var op_1 = document.getElementById('op_1').value;
+                  var op_2 = document.getElementById('op_2').value;
+  
+                  if(opID != op_1 && opID != op_2){
+                    document.getElementById('msg').innerHTML = "Can only view data for own charges";
+                  }
+                  else{
+                    var w1 = window.location.href = 'PassesAnalysis.html';
+                    window.open(w1);
+                  }
                }
             function passesCost(){
-                var w = window.location.href = 'PassesCost.html';
-                window.open(w);
+                var op_1 = document.getElementById('op_1').value;
+                var op_2 = document.getElementById('op_2').value;
+                if(opID != op1 && opID != op2){
+                    document.getElementById('msg').innerHTML = "Can only view data for own charges";
+                  }
+                else{    
+                    var w = window.location.href = 'PassesCost.html';
+                    window.open(w);
+                }
             }
         </script>
-        <form action="ChargesBy.html" method = "get">
+        <form onsubmit="return false" method = "get">
         
             <div class="container">
                   <label for="op"><b>Λειτουργός σταθμών: </b></label>
                   <br>
                   <select name="op" id="op">
                     <option value="AO">Αττική Οδός</option>
-                    <option value="GF">Γέφυρα</option>
                     <option value="EG">Εγνατία Οδός</option>
+                    <option value="GF">Γέφυρα</option>
                     <option value="KO">Κεντρική Οδός</option>
                     <option value="MR">Μορέας</option>
                     <option value="NE">Νέα Οδός</option>
@@ -122,12 +143,20 @@
             <input type = "submit" name = "ChargesBy" value = "Get charges" id = "chargesBy">
            
           </form>
+          <p id = "msg2"></p>
+
           <script>
             document.getElementById("chargesBy").addEventListener("click", chargesby);
             document.getElementById("lgout").addEventListener("click", logoutFunction);
             function chargesby() {
-                  var w = window.location.href = 'ChargesBy.html';
-                  window.open(w);
+                var op = document.getElementById('op').value;
+                if(opID != op){
+                    document.getElementById('msg2').innerHTML = "Can only view data for own charges";
+                  }
+                  else{  
+                    var w = window.location.href = 'ChargesBy.html';
+                    window.open(w);
+                  }
                }
             function logoutFunction(){
                 //document.write("logout pressed");
