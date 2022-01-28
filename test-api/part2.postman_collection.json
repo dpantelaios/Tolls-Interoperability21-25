@@ -1,0 +1,410 @@
+{
+	"info": {
+		"_postman_id": "c1e563d4-61cf-4033-9f25-843e11e7ac1e",
+		"name": "Test Suite",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login_operator_AO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"operator_token_AO\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "alex",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "code",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_operator_EG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"operator_token_EG\", jsonData.token);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "alexmoiraj",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "code",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_ministry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"ministry_token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "blabla",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "blabla",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://127.0.0.1:9103/interoperability/api/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetstations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103//interoperability/api/admin/resetstations/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"",
+						"interoperability",
+						"api",
+						"admin",
+						"resetstations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetvehicles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:9103//interoperability/api/admin/resetvehicles/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"",
+						"interoperability",
+						"api",
+						"admin",
+						"resetvehicles",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "charges_by_operator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"op_ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.op_ID).to.eql(\"AO\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"PPO\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.PPOList[2].VisitingOperator).to.eql(\"KO\");\r",
+							"    pm.expect(jsonData.PPOList[2].PassesCost).to.eql(18.35)\r",
+							"\r",
+							"});\r",
+							"\r",
+							"//EG MR KO NE OO GF\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{operator_token_AO}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/ChargesBy/AO/20200201/20200229/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"ChargesBy",
+						"AO",
+						"20200201",
+						"20200229",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passes_per_station_ministry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Station & StationOperator\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Station).to.eql(\"OO00\");\r",
+							"    pm.expect(jsonData.StationOperator).to.eql(\"OO\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"PassesList\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.PassesList[4].PassIndex).to.equal(5);\r",
+							"    pm.expect(jsonData.PassesList[4].PassID).to.equal(\"MET8174555\");\r",
+							"    pm.expect(jsonData.PassesList[4].PassTimeStamp).to.equal(\"2019-01-12 23:56:00\");\r",
+							"    pm.expect(jsonData.PassesList[4].VehicleID).to.equal(\"QR03XCJ37459\");\r",
+							"    pm.expect(jsonData.PassesList[4].TagProvider).to.equal(\"OO\");\r",
+							"    pm.expect(jsonData.PassesList[4].PassType).to.equal(\"home\");\r",
+							"    pm.expect(jsonData.PassesList[4].PassCharge).to.equal(2.8);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "access-token",
+						"value": "{{ministry_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:9103/interoperability/api/PassesPerStation/OO00/20190101/20190131/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api",
+						"PassesPerStation",
+						"OO00",
+						"20190101",
+						"20190131",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
