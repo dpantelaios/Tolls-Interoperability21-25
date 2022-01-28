@@ -39,12 +39,78 @@
         <h1>Σύστημα Διαλειτουργικότητας</h1>
         <h2>Λειτουργός Αυτοκινητόδρομου</h2>
         
-        <form onsubmit = "return false" method = "get">
+    <script>
+    
+    function abbr2Name(abbr){
+      switch(abbr){
+        case "AO": 
+          return "Αττική Οδός";
+        case "EG":
+          return "Εγνατία Οδός";
+        case "GF":
+          return "Γέφυρα";
+        case "KO":
+          return "Κεντρική Οδός";
+        case "MR":
+          return "Μορέας";
+        case "NE":
+          return "Νέα Οδός";
+        case "OO":
+          return "Ολυμπία Οδός";
+      }
+    }
+    
+  
+
+    function dynamicdropdown(listindex)
+    {   
+      var opID = sessionStorage.getItem("operator");
+        if(listindex == opID){
+            document.getElementById("op_2").length = 0;
+            document.getElementById("op_2").options[0]=new Option("Αττική Οδός", "AO");
+            document.getElementById("op_2").options[1]=new Option("Εγνατία Οδός", "EG");
+            document.getElementById("op_2").options[2]=new Option("Γέφυρα","GF");
+            document.getElementById("op_2").options[3]=new Option("Κεντρική Οδός", "KO");
+            document.getElementById("op_2").options[4]=new Option("Μορέας", "MR");
+            document.getElementById("op_2").options[5]=new Option("Νέα Οδός", "NE");
+            document.getElementById("op_2").options[6]=new Option("Ολυμπία Οδός", "OO");
+        }
+        else{
+            document.getElementById("op_2").length = 0;
+            document.getElementById("op_2").options[0]=new Option(abbr2Name(opID), opID);
+            
+        }
+        return true;
+    }
+    window.onload = function dynamicdropdown2(){
+      var opID = sessionStorage.getItem("operator");
+      document.getElementById("op").options[0]=new Option(abbr2Name(opID), opID);
+   
+      if(opID == "AO"){
+          document.getElementById("op_2").length = 0;
+            document.getElementById("op_2").options[0]=new Option("Αττική Οδός", "AO");
+            document.getElementById("op_2").options[1]=new Option("Εγνατία Οδός", "EG");
+            document.getElementById("op_2").options[2]=new Option("Γέφυρα","GF");
+            document.getElementById("op_2").options[3]=new Option("Κεντρική Οδός", "KO");
+            document.getElementById("op_2").options[4]=new Option("Μορέας", "MR");
+            document.getElementById("op_2").options[5]=new Option("Νέα Οδός", "NE");
+            document.getElementById("op_2").options[6]=new Option("Ολυμπία Οδός", "OO");
+        }
+        else{
+          document.getElementById("op_2").length = 0;
+          document.getElementById("op_2").options[0]=new Option(abbr2Name(opID), opID);
+        }
+    }
+    
+    
+
+    </script>
+        <form action = "PassesAnalysis.html" method = "get">
         
           <div class="container">
                 <label for="op_1"><b>Λειτουργός σταθμών: </b></label>
                 <br>
-                <select name="op_1" id="op_1">
+                <select name="op_1" id="op_1"  onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
 
                   <option value="AO">Αττική Οδός</option>
                   <option value="EG">Εγνατία Οδός</option>
@@ -59,14 +125,8 @@
           <div class="container">
             <label for="op_2"><b>Διαχειριστής tag: </b></label>
             <br>
+
             <select name="op_2" id="op_2">
-                <option value="AO">Αττική Οδός</option>
-                <option value="EG">Εγνατία Οδός</option>
-                <option value="GF">Γέφυρα</option>
-                <option value="KO">Κεντρική Οδός</option>
-                <option value="MR">Μορέας</option>
-                <option value="NE">Νέα Οδός</option>
-                <option value="OO">Ολυμπία Οδός</option>
                 
             </select>
           </div>
@@ -79,7 +139,7 @@
           <input type = "date" id = "endDate" name = "endDate">
           <br>
           <input type = "submit" name = "PassesAnalysis"  value = "Get passes analysis" id = "pAnalysis">
-          <input type = "submit" name = "PassesCost"  onsubmit = "return false" value = "Get passes cost" id = "pCost">
+          <input type = "submit" name = "PassesCost"  formaction="PassesCost.html" value = "Get passes cost" id = "pCost">
          
         </form>
 
@@ -115,19 +175,15 @@
                 }
             }
         </script>
-        <form onsubmit="return false" method = "get">
+
+        
+        <form action="ChargesBy.html" method = "get" onload = "dynamicdropdown2();">
         
             <div class="container">
                   <label for="op"><b>Λειτουργός σταθμών: </b></label>
                   <br>
                   <select name="op" id="op">
-                    <option value="AO">Αττική Οδός</option>
-                    <option value="EG">Εγνατία Οδός</option>
-                    <option value="GF">Γέφυρα</option>
-                    <option value="KO">Κεντρική Οδός</option>
-                    <option value="MR">Μορέας</option>
-                    <option value="NE">Νέα Οδός</option>
-                    <option value="OO">Ολυμπία Οδός</option>
+                    
                     
                   </select>
             </div>
