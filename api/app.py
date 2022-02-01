@@ -12,6 +12,13 @@ import jwt
 from functools import wraps
 from urllib.parse import urlparse
 
+"""
+    Define blacklist flushing function:
+        If token in blacklist has not yet expired, decoding is successful and token stays in blacklist.
+        Else token is removed from blacklist.
+
+"""
+
 blacklist=[]
 
 def token_cleaner():
@@ -24,19 +31,50 @@ def token_cleaner():
         except:
             continue
     blacklist=temp.copy()
-    
+
+"""
+    Initialise & Start Scheduler:
+        Initialise scheduler as a BackroundScheduler, using a separate deamon thread.
+(CHECK)        Add two jobs on scheduler, one for grouping charges by month and provider (scheduled once every 30 days), and one for
+        flushing used tokens from blacklist (scheduled once every 2 minutes).
+        Start Scheduler and register scheduler shutdown to be executed at termination.
+             
+"""    
+
+
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(func=refresh, trigger='interval', days=30)
 scheduler.add_job(func=token_cleaner, trigger='interval', minutes = 2)
 scheduler.start()
-
 atexit.register(lambda: scheduler.shutdown())
+
+"""
+    Initialise app as an object of Flask class.
+    Initialise API as RESTful.
+
+"""
 
 app = Flask(__name__)
 api = Api(app)
 path = '/interoperability/api/'
+
+"""
+    Config Flask object:
+        Disable alphabetical sorting of keys in JSON objects in order to set specified order.
+        Set SECRET_KEY value used to encrypt and decrypt tokens.
+
+"""
 app.config['JSON_SORT_KEYS'] = False
 app.config['SECRET_KEY'] = 'se2125'
+
+"""
+    Define wrapper function token_required:
+    (adds argument current_user to function f)
+        Take token from request headers
+        If token is in blacklist, user has logged out.
+        Else decode token and extract current_user info.
+
+"""
 
 def token_required(f):
     @wraps(f)
@@ -62,8 +100,10 @@ def token_required(f):
         
     return decorated
 
+"""
+    Function to check if dateFrom and dateTo are valid dates and consist a valid time period.
 
-    
+"""
 def checkdate(dateFrom, dateTo):
         if (
             (not dateFrom.isnumeric()) or\
@@ -78,7 +118,11 @@ def checkdate(dateFrom, dateTo):
                 return False
         else: 
             return True
-
+"""
+    Define Resource healthcheck:
+    (confirms end-to-end connectivity between user and database)
+        Call healthcheckB function from backend and based on its result return respective JSON object.
+"""
 class healthcheck(Resource):
     def get(self):
         try:
@@ -94,7 +138,10 @@ class healthcheck(Resource):
                 statusCode = 500
         finally:
             return make_response(jsonify(OrderedDict({'status': status,'dbconnection': dbconnection})), statusCode)
+"""
+(CHECK)    frontend. mporei na ginei integrate me tis sinartiseis tou api? 
 
+"""
 
 @app.route('/interoperability/api/createUser.html', methods = ['GET'])
 def gotocreateuser():
@@ -132,6 +179,13 @@ def gotoministry():
 def gotohtml():
     return render_template('./loginForm.html')
 
+"""
+    Define Resource resetPasses:
+    (deletes tupples of table passes of db and initialises default admin accoun)
+        Call resetPassesB function from backend and based on its result return respective JSON object.
+
+"""
+
 class resetPasses(Resource):
     def post(self):
         try:
@@ -147,6 +201,13 @@ class resetPasses(Resource):
         finally:
             return make_response(jsonify({'status': status}), statusCode)
 
+"""
+    Define Resource resetStations:
+    (initialise station table of db with default data)
+        Call resetStationsB function from backend and based on its result return respective JSON object.
+
+"""
+
 class resetStations(Resource):
     def post(self):
         try:
@@ -161,6 +222,13 @@ class resetStations(Resource):
                 statusCode = 500
         finally:
             return make_response(jsonify({'status': status}), statusCode)
+
+"""
+    Define Resource resetVehicles:
+    (initialise vehicle table of db with default data)
+        Call resetVehiclesB function from backend and based on its result return respective JSON object.
+
+"""
 
 class resetVehicles(Resource):
     def post(self):
@@ -178,18 +246,32 @@ class resetVehicles(Resource):
             return make_response(jsonify({'status': status}), statusCode)
 
 
+"""
+    Define Resource passesPerStation:
+    (returns list of passes for the specified station and time period, using the specified format (json or csv))
+        Check if current_user has access to this data and arguments are valid.
+        Get return list format and check its validity.
+(~) Den anaferoume giati allazoume ta dates :)
+        Call passesPerStationB function from backend.
+        If passesPerStationB return value indicates unavailable or nonexistant data, return corresponding error.
+(~) Exei pei kati gia to format tou csv fantazomai?
+        Compose result according to given format. 
+        If format is "csv", create list of dictionaries, in which every dictionary represents a csv row. 
+        Then convert list to a csv form string of data with ";" as the delimeter. Return string as JSON object accompanied by the successful HTTP status code.         
+        If format is "json", attach list of dictionaries as the field "PassesList" of the output dictionary, fill the other fields as needed 
+        and return said dict. as a JSON object accompanied by the successful HTTP status code. 
 
+"""
 timeFrmt = '%Y-%m-%d %H:%M:%S'
 
 class passesPerStation(Resource):
     @token_required
     def get(current_user,self,stationID, dateFrom, dateTo):
-      try:
-          
+      try:  
             current_user_type = getUserTypeB(current_user)
             if(current_user_type != 'ministry' and current_user_type != 'admin'):
                 return make_response(jsonify({'message' : 'Operation not allowed for current user'}), 401)
-
+            #debug?
             print([stationID, dateFrom, dateTo])
             RequestTimestamp = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
@@ -229,6 +311,13 @@ class passesPerStation(Resource):
       except Exception as e:
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
+
+"""
+    Define Resource passesAnalysis:
+    (returns list of passes involving tags of operator op2_ID and stations of operator op1_ID for the specifiedtime period, using the specified format (json or csv))
+        Follow the same steps as passesPerStation, calling passesAnalysisB instead of passesPerStationB.
+
+"""
 
 class passesAnalysis(Resource):
     @token_required
@@ -278,10 +367,29 @@ class passesAnalysis(Resource):
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
 
+"""
+    Define Resource passesCost:
+    (returns amount and total cost of passes involving tags of operator op2_ID and stations of operator op1_ID for the specified time period, using the specified format (json or csv))
+        Check if current_user has access to this data and arguments are valid.
+        Get return list format and check its validity.
+(~) Den anaferoume giati allazoume ta dates :)
+        Call passesCostB function from backend.
+        If passesCostB return value indicates unavailable or nonexistant data, return corresponding error.
+(~) Exei pei kati gia to format tou csv fantazomai?
+        Compose result dictionary. 
+        If format is "csv", return result dict. as a csv form string of data with ";" as the delimeter accompanied by the successful HTTP status code.
+        If format is "json", return said dict. as a JSON object accompanied by the successful HTTP status code. 
+
+"""
+
 class passesCost(Resource):
     @token_required
     def get(current_user, self, op1ID, op2ID, dateFrom, dateTo):
         try:
+            current_user_type = getUserTypeB(current_user)
+            if(current_user_type != op1ID and current_user_type != op2ID and current_user_type != 'admin'):
+                return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
+    
             RequestTimestamp = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
             if (datatype and datatype !='json' and datatype != 'csv'):
@@ -290,10 +398,7 @@ class passesCost(Resource):
                 return make_response(jsonify({'status': 'failed'}), 400)
             dateFrom = dateFrom[:4] + '-' + dateFrom[4:6] + '-' + dateFrom[6:]+' 00:00:00'
             dateTo = dateTo[:4] + '-' + dateTo[4:6] + '-' + dateTo[6:]+' 23:59:59'
-
-            current_user_type = getUserTypeB(current_user)
-            if(current_user_type != op1ID and current_user_type != op2ID and current_user_type != 'admin'):
-                return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
+            
             ret = passesCostB(op1ID, op2ID, dateFrom, dateTo)
             if (ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
@@ -314,10 +419,25 @@ class passesCost(Resource):
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
 
+"""
+    Define Resource chargesBy:
+    (returns list of amount and cost of passes involving stations of operator op_ID and tags of any other opperator for the specified time period, grouped by operator, using the specified format (json or csv))
+        Check if current_user has access to this data and arguments are valid.
+        Get return list format and check its validity.
+(~) Den anaferoume giati allazoume ta dates :)
+        Call chargesByB function from backend.
+        If chargesByB return value indicates unavailable or nonexistant data, return corresponding error.
+        Compose result dictionary. 
+        (*****MORE*****)
+"""
+
 class chargesBy(Resource):
     @token_required
     def get(current_user, self, opID, dateFrom, dateTo):
         try:
+            current_user_type = getUserTypeB(current_user)
+            if(current_user_type != opID and current_user_type != 'admin'):
+                return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
             RequestTimestamp  = datetime.datetime.now().strftime(timeFrmt)
             datatype = request.args.get('format')
             if (datatype and datatype !='json' and datatype != 'csv'):
@@ -327,11 +447,6 @@ class chargesBy(Resource):
             dateFrom = dateFrom[:4] + '-' + dateFrom[4:6] + '-' + dateFrom[6:] +' 00:00:00'
             dateTo = dateTo[:4] + '-' + dateTo[4:6] + '-' + dateTo[6:] + ' 23:59:59'
 
-
-            current_user_type = getUserTypeB(current_user)
-            if(current_user_type != opID and current_user_type != 'admin'):
-                return make_response(jsonify({'message' : 'Retrieving data for other users is not allowed!'}), 401)
-            
             ret = chargesByB(opID, dateFrom, dateTo)
             
             if (ret == None):
@@ -340,7 +455,6 @@ class chargesBy(Resource):
             ows_count=ret['ows_count']
             if (not is_owed_count or not ows_count):
                 return make_response(jsonify({'status': 'failed'}), 402)
-
             
             is_owed_data = ret['is_owed_data']
             ows_data=ret['ows_data']
@@ -372,13 +486,17 @@ class chargesBy(Resource):
         except Exception as e:
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
+"""
+    Define Resource insertPasses:
+    (initialise pass table of db with default data)
+        Call insertPassesB function from backend and based on its result return respective JSON object.
 
+"""
 class insertPasses(Resource):
     @token_required
     def get(current_user, self, source):
         try:
             current_user_type = getUserTypeB(current_user)
-            #print(current_user_type)
             if not current_user_type == 'admin':
                 return make_response(jsonify({'message' : 'Cannot perform that function!'}), 401)
             if(insertPassesB(source)):   
@@ -393,8 +511,14 @@ class insertPasses(Resource):
                 status = 'failed'
                 statusCode = 500
                 return make_response(jsonify({'status': status}), statusCode)
-            
+"""
+    Define Resource login:
+    (implement user login)
+       Check if username and password are valid.
+       Call loginB from backend.
+       Based on loginB result either issue a new token and return it in a JSON object or return an error.
 
+"""            
 class login(Resource):
     def post(self):
         try:
@@ -410,7 +534,7 @@ class login(Resource):
                 return make_response(jsonify({'status': 'failed'}), 500)
             count = ret['count']
             if (not count):
-                return make_response(jsonify({'Authenticate': 'Wrong credentials'}),401)
+                return make_response(jsonify({'Authenticate': 'Wrong credentials'}), 401)
             data = ret['data']
             if check_password_hash(data[2], password):
                 token = jwt.encode({'user' : data[1], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
@@ -419,23 +543,34 @@ class login(Resource):
         except Exception as e:
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
+"""
+    Define Resource logout:
+    (implement user logout)
+        Get token from request and add to blacklist.
+
+"""  
 
 class logout(Resource):
     @token_required
     def post(current_user, self):
-        #print("Called")
         global blacklist
         token = request.form.get('access-token')
         blacklist.append(token)
         return make_response(jsonify({'Authenticate':'Logged out!'}),200)
 
+"""
+    Define Resource createUser:
+(CHECK)    (create new entry in table user of db)
+        Check if current_user has access to this opperation.
+        Create hashed password.
+        Call createUserB from backend and based on its result return respective JSON object.
+
+"""
 class createUser(Resource):
     @token_required
     def post(current_user, self):
         try:
-            ##check authentication type==admin
             current_user_type = getUserTypeB(current_user)
-            #print(current_user_type)
             if not current_user_type == 'admin':
                 return make_response(jsonify({'message' : 'Cannot perform that function!'}), 401)
             username = request.form.get('username')
@@ -455,8 +590,13 @@ class createUser(Resource):
                 status = 'failed'
                 statusCode = 500
                 return make_response(jsonify({'status': status}), statusCode)
+"""
+    Define Resource checkUser:
+    (check if user exists in db based on username)
+        Check if current_user has access to this opperation.
+        Call checkUserB from backend and based on its result return respective JSON object.
 
-
+"""
 class checkUser(Resource):
     @token_required
     def post(current_user, self):
@@ -477,6 +617,10 @@ class checkUser(Resource):
         statusCode = 500
         return make_response(jsonify({'status': status}), statusCode)
 
+"""
+    Add resources to the api. Match urls to to recourses defined above.
+"""
+
 api.add_resource(healthcheck, '/interoperability/api/admin/healthcheck/')
 api.add_resource(passesAnalysis, '/interoperability/api/PassesAnalysis/<op1ID>/<op2ID>/<dateFrom>/<dateTo>/')
 api.add_resource(passesPerStation, '/interoperability/api/PassesPerStation/<stationID>/<dateFrom>/<dateTo>/')
@@ -491,6 +635,9 @@ api.add_resource(createUser, '/interoperability/api/admin/createUser')
 api.add_resource(logout, '/interoperability/api/logout')
 api.add_resource(checkUser, '/interoperability/api/admin/checkUser')
 
+"""
+    Run app with specified port over https.
+"""
 if __name__ == '__main__':
     app.run(port=9103, ssl_context=('cert.pem', 'key.pem'), debug = True) 
 
