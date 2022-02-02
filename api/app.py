@@ -36,7 +36,7 @@ def token_cleaner():
     Initialise & Start Scheduler:
         Initialise scheduler as a BackroundScheduler, using a separate deamon thread.
 (CHECK)        Add two jobs on scheduler, one for grouping charges by month and provider (scheduled once every 30 days), and one for
-        flushing used tokens from blacklist (scheduled once every 2 minutes).
+        flushing expired tokens from blacklist (scheduled once every 2 minutes).
         Start Scheduler and register scheduler shutdown to be executed at termination.
              
 """    
