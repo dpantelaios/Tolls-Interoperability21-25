@@ -15,8 +15,7 @@ from urllib.parse import urlparse
 """
     Define blacklist flushing function:
         If token in blacklist has not yet expired, decoding is successful and token stays in blacklist.
-        Else token is removed from blacklist.
-
+        Else token is removed from blacklist
 """
 
 blacklist=[]
@@ -35,12 +34,11 @@ def token_cleaner():
 """
     Initialise & Start Scheduler:
         Initialise scheduler as a BackroundScheduler, using a separate deamon thread.
-(CHECK)        Add two jobs on scheduler, one for grouping charges by month and provider (scheduled once every 30 days), and one for
+        Add two jobs on scheduler, one for grouping charges by month and provider (scheduled once every 30 days), and one for
         flushing expired tokens from blacklist (scheduled once every 2 minutes).
         Start Scheduler and register scheduler shutdown to be executed at termination.
              
 """    
-
 
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(func=refresh, trigger='interval', days=30)
@@ -51,7 +49,6 @@ atexit.register(lambda: scheduler.shutdown())
 """
     Initialise app as an object of Flask class.
     Initialise API as RESTful.
-
 """
 
 app = Flask(__name__)
@@ -62,7 +59,6 @@ path = '/interoperability/api/'
     Config Flask object:
         Disable alphabetical sorting of keys in JSON objects in order to set specified order.
         Set SECRET_KEY value used to encrypt and decrypt tokens.
-
 """
 app.config['JSON_SORT_KEYS'] = False
 app.config['SECRET_KEY'] = 'se2125'
@@ -102,7 +98,6 @@ def token_required(f):
 
 """
     Function to check if dateFrom and dateTo are valid dates and consist a valid time period.
-
 """
 def checkdate(dateFrom, dateTo):
         if (
@@ -122,6 +117,7 @@ def checkdate(dateFrom, dateTo):
     Define Resource healthcheck:
     (confirms end-to-end connectivity between user and database)
         Call healthcheckB function from backend and based on its result return respective JSON object.
+
 """
 class healthcheck(Resource):
     def get(self):
@@ -255,7 +251,8 @@ class resetVehicles(Resource):
         Call passesPerStationB function from backend.
         If passesPerStationB return value indicates unavailable or nonexistant data, return corresponding error.
 (~) Exei pei kati gia to format tou csv fantazomai?
-        Compose result according to given format. 
+        For every row of data return, differentiate between home and visitor passes.
+        Compose result according to given format.
         If format is "csv", create list of dictionaries, in which every dictionary represents a csv row. 
         Then convert list to a csv form string of data with ";" as the delimeter. Return string as JSON object accompanied by the successful HTTP status code.         
         If format is "json", attach list of dictionaries as the field "PassesList" of the output dictionary, fill the other fields as needed 
@@ -314,7 +311,7 @@ class passesPerStation(Resource):
 
 """
     Define Resource passesAnalysis:
-    (returns list of passes involving tags of operator op2_ID and stations of operator op1_ID for the specifiedtime period, using the specified format (json or csv))
+    (returns list of passes involving tags of operator op2_ID and stations of operator op1_ID for the specified time period, using the specified format (json or csv))
         Follow the same steps as passesPerStation, calling passesAnalysisB instead of passesPerStationB.
 
 """
@@ -421,14 +418,13 @@ class passesCost(Resource):
 
 """
     Define Resource chargesBy:
-    (returns list of amount and cost of passes involving stations of operator op_ID and tags of any other opperator for the specified time period, grouped by operator, using the specified format (json or csv))
+    (returns list of cost of passes involving stations of operator opID and tags of any other operator subtracted by the cost of passes involving tags of operator opID and stations of each other operator, that occured in the specified time period, using the specified format (json or csv))
         Check if current_user has access to this data and arguments are valid.
         Get return list format and check its validity.
-(~) Den anaferoume giati allazoume ta dates :)
         Call chargesByB function from backend.
         If chargesByB return value indicates unavailable or nonexistant data, return corresponding error.
+        For every operator x that ows to opID, subtract what opID ows to x, make a dictionary list object and add to result.
         Compose result dictionary. 
-        (*****MORE*****)
 """
 
 class chargesBy(Resource):
@@ -490,7 +486,6 @@ class chargesBy(Resource):
     Define Resource insertPasses:
     (initialise pass table of db with default data)
         Call insertPassesB function from backend and based on its result return respective JSON object.
-
 """
 class insertPasses(Resource):
     @token_required
@@ -538,7 +533,7 @@ class login(Resource):
             data = ret['data']
             if check_password_hash(data[2], password):
                 token = jwt.encode({'user' : data[1], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-                return jsonify({'token' : token.decode('UTF-8'), 'type' : data[0]})
+                return jsonify({'token' : token.decode('UTF-8'), 'type' : data[0]}) #Exoume kapoio logo pou girname type?
             return make_response(jsonify({'Authenticate':'Wrong Password!'}), 401 )
         except Exception as e:
             print(e)
@@ -560,7 +555,7 @@ class logout(Resource):
 
 """
     Define Resource createUser:
-(CHECK)    (create new entry in table user of db)
+    (create new entry in table user of db)
         Check if current_user has access to this opperation.
         Create hashed password.
         Call createUserB from backend and based on its result return respective JSON object.
@@ -636,7 +631,7 @@ api.add_resource(logout, '/interoperability/api/logout')
 api.add_resource(checkUser, '/interoperability/api/admin/checkUser')
 
 """
-    Run app on specified port over https.
+    Run app with specified port over https.
 """
 if __name__ == '__main__':
     app.run(port=9103, ssl_context=('cert.pem', 'key.pem'), debug = True) 
