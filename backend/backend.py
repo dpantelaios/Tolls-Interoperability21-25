@@ -4,6 +4,11 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 
+"""
+    MySql db info
+    Used to connect to database
+"""
+
 standard = {
     'host': 'localhost', 
     'database': 'softeng', 
@@ -13,6 +18,11 @@ standard = {
     'auth_plugin': 'mysql_native_password'
 }
 
+"""
+   Define login function: 
+        Get tupple from table user of db with username=username
+        Return dictionary with tupple and indicator of existance of user. 
+"""
 
 def loginB(username):
     try:   
@@ -30,7 +40,10 @@ def loginB(username):
     finally:
         cursor.close()
 
-
+"""
+    Define database loading function:
+        Open and execute db dump file
+"""
 def createDb():
     try:
         connection = mysql.connector.connect(**standard)
@@ -45,6 +58,12 @@ def createDb():
     except Exception as e:
         print(e)
 
+"""
+    Define function insertPassesB:
+    (fills table pass of db with data from "source" file)
+        Read csv file.
+        For every row of csv file, format date and time to be SQL DATETIME compatible and insert tupple in table pass of db.            
+"""
 def insertPassesB(source):
     try:
         connection = mysql.connector.connect(**standard)
@@ -79,10 +98,16 @@ def insertPassesB(source):
 month = 1
 year = 19
 
+"""
+    Define scheduler job function:
+    (fills table chargesum of db)
+        For every operator, find sum of charges that are owed this month by all the other operators and group by operator. 
+        Add tupples to chargesum table of db. 
+"""
 def refresh():
         global month
         global year
-        strm = '0'+str(month)
+        strm = '0' + str(month)
         dateFrom = '20' + str(year) + '-' + strm[-2:] + '-01' + ' 00:00:00'
         month +=1
         if (month == 13):
@@ -110,6 +135,10 @@ def refresh():
         connection.commit()
         cursor.close()
 
+"""
+    Define function healthcheckB:
+        Attempt connection to db and return result.
+"""
 def healthcheckB():
     try:
         mysql.connector.connect(**standard)
@@ -117,6 +146,10 @@ def healthcheckB():
     except:
         return False
 
+"""
+    Define function resetPassesB:
+        Delete all entries from table pass of db and insert admin user with password freepasses4all to table user of db.
+"""
 def resetPassesB():
     try:
         connection = mysql.connector.connect(**standard)
@@ -130,7 +163,13 @@ def resetPassesB():
         return False
     finally:
         cursor.close() 
-
+"""
+    Define function resetStationsB:
+    (reset entries in station table of db)
+        Delete all entries from table station of db.
+        Read csv file.
+        For every entry of csv file, get needed data and add to table station of db.
+"""
 def resetStationsB():
     try:
         connection = mysql.connector.connect(**standard)
@@ -151,7 +190,13 @@ def resetStationsB():
         return False
     finally:
         cursor.close()
-
+"""
+    Define function resetVehiclesB:
+    (reset entries in vehicle table of db)
+        Delete all entries from table vehicle of db.
+        Read csv file.
+        For every entry of csv file, get needed data, initialise balance at value zero and add to table vehicle of db. 
+"""
 def resetVehiclesB():
     try:
         connection = mysql.connector.connect(**standard)
@@ -173,7 +218,13 @@ def resetVehiclesB():
     finally:
         cursor.close()
 
-
+"""
+    Define function passesPerStationB:
+    (Gets passes from stationID that occured between the dates given in function call, from table pass of db)
+        Execute query on db.
+        Fetch results.
+        Return dictionary with results and number of tupples in results.        
+"""
 def passesPerStationB(stationID, dateFrom, dateTo):
     try:
         connection = mysql.connector.connect(**standard)
@@ -194,7 +245,13 @@ def passesPerStationB(stationID, dateFrom, dateTo):
     finally:
         cursor.close()
 
-
+"""
+    Define function passesAnalysisB:
+    (Gets passes involving tags of operator op2ID and stations of operator op1ID that occured between the dates specified in function call)
+        Execute query on db. 
+        Fetch results.
+        Return dictionary with results and number of tupples in results.        
+"""
 def passesAnalysisB(op1ID, op2ID, dateFrom, dateTo):
     try:
         connection = mysql.connector.connect(**standard)
@@ -215,7 +272,13 @@ def passesAnalysisB(op1ID, op2ID, dateFrom, dateTo):
     finally:
         cursor.close()
 
-
+"""
+    Define fuction passesCostB:
+    (Gets sum (with precision of two decimals) and amount of passes involving tags of operator op2ID and stations of operator op1ID that occured between the dates specified in function call)
+        Execute query on db.
+        Fetch results.
+        Return dictionary with results and number of tupples in results.        
+"""
 def passesCostB(op1ID, op2ID, dateFrom, dateTo):
     try:
         connection = mysql.connector.connect(**standard)
@@ -234,7 +297,14 @@ def passesCostB(op1ID, op2ID, dateFrom, dateTo):
         return None
     finally:
         cursor.close()
-
+"""
+    Define function chargesByB:
+    (Gets two sets of data. The first is the sum (with precision of two decimals) and amount of passes involving stations of operator opID and tags of any other opperator that occured between the dates specified in function call.
+        The second is the sum (with precision of two decimals) and amount of passes involving tags of operator opID and stations of any other operator, that occur in the specified time period)
+        Execute query on db.
+        Fetch results.
+        Return dictionary with results and number of tupples in results.       
+"""
 def chargesByB(opID, dateFrom, dateTo):
     try:
         connection = mysql.connector.connect(**standard)
@@ -266,7 +336,13 @@ def chargesByB(opID, dateFrom, dateTo):
         return None
     finally:
         cursor.close()
-
+"""
+    Define function createUserB:
+    (Creates or updates entry of table user with given username, password and type)
+        Check if entry of table user with given username exists.
+        If it does not, insert new tupple into table.
+        Else update tupple.
+"""
 def createUserB(username, password, type):
     try:
         connection = mysql.connector.connect(**standard)
@@ -292,7 +368,12 @@ def createUserB(username, password, type):
     finally:
         cursor.close()
 
-
+"""
+    Define function getUserTypeB:
+    (Gets type from entry of table user of db with specified username)
+        Find entry of table user with given username.
+        Return type.
+"""
 def getUserTypeB(username):
     try:
         connection = mysql.connector.connect(**standard)
@@ -307,7 +388,11 @@ def getUserTypeB(username):
         return None
     finally:
         cursor.close()
-
+"""
+    Define function checkUserB:
+    (Checks if entry in table user of db with specified username exists)
+        Execute query and return result.
+"""
 def checkUserB(username):
     try:
         connection = mysql.connector.connect(**standard)
