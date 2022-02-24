@@ -390,13 +390,16 @@ class passesCost(Resource):
             ret = passesCostB(op1ID, op2ID, dateFrom, dateTo)
             if (ret == None):
                 return make_response(jsonify({'status': 'failed'}), 500)
-            count = ret['count']
-            if (not count):
+            is_owed_count = ret['is_owed_count']
+            ows_count=ret['ows_count']
+            if (not is_owed_count or not ows_count):
                 return make_response(jsonify({'status': 'failed'}), 402)
-            data = ret['data']
-            PassesCost = data[0][0]
+            
+            is_owed_data = ret['is_owed_data']
+            ows_data=ret['ows_data']
+            PassesCost = max(is_owed_data[0][0]-ows_data[0][0], 0)
             d = OrderedDict()
-            d = {'op1_ID': op1ID, 'op2_ID': op2ID, 'RequestTimestamp': RequestTimestamp, 'PeriodFrom': dateFrom[:10], 'PeriodTo': dateTo[:10], 'NumberOfPasses' : count,'PassesCost':PassesCost}
+            d = {'op1_ID': op1ID, 'op2_ID': op2ID, 'RequestTimestamp': RequestTimestamp, 'PeriodFrom': dateFrom[:10], 'PeriodTo': dateTo[:10], 'NumberOfPasses' : is_owed_count,'PassesCost':PassesCost}
             if datatype == 'csv':
                 df = pd.DataFrame(d, index=[0])
                 csvData = df.to_csv(index=False, sep = ';')
