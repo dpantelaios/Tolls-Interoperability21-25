@@ -277,7 +277,7 @@ def passesAnalysisB(op1ID, op2ID, dateFrom, dateTo):
 
 """
     Define fuction passesCostB:
-    (Gets sum (with precision of two decimals) and amount of passes involving tags of operator op2ID and stations of operator op1ID that occured between the dates specified in function call)
+    (Gets sum (with precision of two decimals) and amount of passes involving tags of operator op2ID, and vice versa, and stations of operator op1ID that occured between the dates specified in function call)
         Execute query on db.
         Fetch results.
         Return dictionary with results and number of tupples in results.        
