@@ -626,5 +626,5 @@ api.add_resource(checkUser, '/interoperability/api/admin/checkUser')
     Run app with specified port over https.
 """
 if __name__ == '__main__':
-    app.run(port=9103, ssl_context=('cert.pem', 'key.pem'), debug = True) 
+    app.run(port=9103, ssl_context=('api/cert.pem', 'api/key.pem'), debug = True) 
 
