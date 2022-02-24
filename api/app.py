@@ -5,7 +5,7 @@ import datetime
 import pandas as pd
 from backend.backend import *
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
+#from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from collections import OrderedDict
 import atexit
 import jwt
