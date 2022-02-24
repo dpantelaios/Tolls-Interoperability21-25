@@ -3,6 +3,8 @@
         Interoperability System
     </title>
     <head>
+
+        <!-- Styling -->
         <style>
 
             button {
@@ -41,7 +43,7 @@
         <h1>Σύστημα Διαλειτουργικότητας</h1>
         <h2>Υπουργείο Συγκοινωνιών</h2>
 
-            
+        <!--Select filters for endpoints-->
         <form action="PassesPerStation.html" method = "get">
         
           
@@ -61,7 +63,8 @@
 
          
         </form>
-
+        
+        <!--Script with listeners for dropdown selection. Redirects to suitable endpoint-->
         <script>
             document.getElementById("ppo").addEventListener("click", passesperstation);
             document.getElementById("lgout").addEventListener("click", logoutFunction);
@@ -73,7 +76,7 @@
                 
             
             function logoutFunction(){
-                //document.write("logout pressed");
+                
                 var yourUrl;
                 yourUrl = "https://localhost:9103/interoperability/api/logout"
                 var xhr = new XMLHttpRequest();
