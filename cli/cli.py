@@ -163,14 +163,11 @@ def login (args):
     response = requests.post("https://127.0.0.1:9103/interoperability/api/login", data=body, verify=False)
     try:
         ret = dict(response.json())
-        #print(ret['token'])  
         with open('token.to','w') as f:
             f.write(ret['token'])
-        #pip3 instalcl urllib3==1.23
         print(json.dumps({'Authenticate':'Successful login!'}))
 
     except Exception as e:
-        #print(e)
         print(response.json())
 """
     Define logout function:
@@ -281,9 +278,7 @@ def passesCost(args):
     else:
         our_headers={'access-token': token}
         link = "https://127.0.0.1:9103/interoperability/api/PassesCost/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
-        #print(link)
         response = requests.get(link, headers=our_headers, verify=False)
-        #print(response.status_code)
         if (response.status_code==200):
             if args.format == "json":
                 print(response.json())
@@ -305,9 +300,7 @@ def chargesBy(args):
     else:
         our_headers={'access-token': token}
         link = "https://127.0.0.1:9103/interoperability/api/ChargesBy/" + args.op1 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
-        #print(link)
         response = requests.get(link, headers=our_headers, verify=False)
-        #print(response.status_code)
         if (response.status_code==200):
             if args.format == "json":
                 print(response.json())
@@ -322,7 +315,7 @@ def chargesBy(args):
 """
     Define admin function:
         Check existence of token.
-        For either passesupd, usermod or users operations, follow the same procedure as previous functions 
+        For either passesupd, usermod or users operations, follow the same procedure as previous functions.
 """
 def admin(args):
     token = read_token()
@@ -339,7 +332,6 @@ def admin(args):
         link="https://127.0.0.1:9103/interoperability/api/admin/createUser"
         response = requests.post(link, headers=our_headers, data=body, verify=False)
         print(response.json()) 
-## discuss else if(args.users): emfanisi katastasis xristi alla den kratame poioi einai logged in kai den exoume to token pou tou dosame. Kati provlimatiko paizei edo
     elif(args.users):
         our_headers={'access-token': token}
         body={'username': args.users}
