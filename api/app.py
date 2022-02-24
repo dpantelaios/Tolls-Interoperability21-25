@@ -525,7 +525,7 @@ class login(Resource):
             data = ret['data']
             if check_password_hash(data[2], password):
                 token = jwt.encode({'user' : data[1], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-                return jsonify({'token' : token.decode('UTF-8'), 'type' : data[0]}) #Exoume kapoio logo pou girname type?
+                return jsonify({'token' : token.decode('UTF-8'), 'type' : data[0]})
             return make_response(jsonify({'Authenticate':'Wrong Password!'}), 401 )
         except Exception as e:
             print(e)
