@@ -66,6 +66,7 @@
             }
 
             var myArr;
+            /*GET request with AJAX */
             $.ajax({
                 dataType: "json",
                 type: "get",
@@ -88,7 +89,7 @@
                   text += "<hr>";
 
                   myArr.PPOList.map(passTemplate).join('');  
-                  document.getElementById('p1').innerHTML = text; 
+                  document.getElementById('p1').innerHTML = text;        /* print output in HTML page into the place 'p1' suggests */
              },
                    error: function(xhr) { // if error occured
                        alert("Error occured.please try again");
