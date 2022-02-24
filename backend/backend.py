@@ -177,7 +177,7 @@ def resetStationsB():
         cursor = connection.cursor()
         cursor.execute('DELETE FROM station')
         connection.commit()
-        csvdata = pd.read_csv( r"..\data\sampledata01_stations.csv" , sep=";")
+        csvdata = pd.read_csv( r".\data\sampledata01_stations.csv" , sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             stationOp = row.stationID[:2]
@@ -204,7 +204,7 @@ def resetVehiclesB():
         cursor = connection.cursor()
         cursor.execute(' DELETE FROM vehicle')
         connection.commit()
-        csvdata = pd.read_csv(r"..\data\sampledata01_vehicles_100.csv", sep=";")
+        csvdata = pd.read_csv(r".\data\sampledata01_vehicles_100.csv", sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             cursor.execute(f""" 
