@@ -4,6 +4,7 @@ import csv
 import sys
 import pickle
 import json
+import colorama 
 from termcolor import colored
 urllib3.disable_warnings()
  #pip3 install urllib3==1.23
@@ -13,6 +14,7 @@ urllib3.disable_warnings()
 """
 class MyParser(argparse.ArgumentParser):
     def error(self, message):
+        colorama.init()
         print(colored("Invalid Parameters!", 'red'))
         print(colored("Required parameters for every scope:", 'red'))
         print("")
@@ -63,7 +65,6 @@ class MyParser(argparse.ArgumentParser):
     For every argument define its type and whether it is required or not.
 """
 def main():
-    
     parser = MyParser()
     subparsers = parser.add_subparsers()
     
@@ -220,28 +221,30 @@ def resetvehicles(args):
         Format headers and url of request.
         Make GET request to API.
         If the request is successful print output according to given format. 
-        If format is csv, decode response content and print as list.
+        If format is csv, decode response content and print every row as list.
         
 """
-def passesPerStation(args): #i removed try-except not needed?
+def passesPerStation(args): 
     token = read_token()
-
     if(token is None):
         print(json.dumps({'Authenticate':'You must login first!'}))
     else:
         our_headers={'access-token': token}
-        link = "https://127.0.0.1:9103/interoperability/api/PassesPerStation/" + args.station + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        if(args.format is None):
+            last = "?format=json"
+        else:
+            last = "?format="+args.format
+        link = "https://127.0.0.1:9103/interoperability/api/PassesPerStation/" + args.station + "/" + args.datefrom + "/" + args.dateto + last         
         response = requests.get(link, headers=our_headers, verify=False)
-        
         if (response.status_code==200):
-            if args.format == "json":
-                print(response.json())
-            else:
+            if args.format == "csv":
                 decoded_content = response.content.decode('utf-8')
                 cr = csv.reader(decoded_content.splitlines(), delimiter=';')
                 my_list = list(cr)
                 for row in my_list:
                     print(row)
+            else:
+                print(response.json())
         else:
             print(response.json())
 
@@ -255,17 +258,22 @@ def passesAnalysis(args):
         print(json.dumps({'Authenticate':'You must login first!'}))
     else:
         our_headers={'access-token': token}
-        link = "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        if(args.format is None):
+            last = "?format=json"
+        else:
+            last = "?format="+args.format  
+        link = "https://127.0.0.1:9103/interoperability/api/PassesAnalysis/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto +  last
         response = requests.get(link, headers=our_headers, verify=False)
         if (response.status_code==200):
-            if args.format == "json":
-                print(response.json())
-            else:
+            if args.format == "csv":
                 decoded_content = response.content.decode('utf-8')
                 cr = csv.reader(decoded_content.splitlines(), delimiter=';')
                 my_list = list(cr)
                 for row in my_list:
                     print(row)
+                
+            else:
+               print(response.json())
         else:
             print(response.json())
 """
@@ -277,17 +285,22 @@ def passesCost(args):
         print(json.dumps({'Authenticate':'You must login first!'}))
     else:
         our_headers={'access-token': token}
-        link = "https://127.0.0.1:9103/interoperability/api/PassesCost/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        if(args.format is None):
+            last = "?format=json"
+        else:
+            last = "?format="+args.format
+
+        link = "https://127.0.0.1:9103/interoperability/api/PassesCost/" + args.op1 + "/" + args.op2 + "/" + args.datefrom + "/" + args.dateto + last      
         response = requests.get(link, headers=our_headers, verify=False)
         if (response.status_code==200):
-            if args.format == "json":
-                print(response.json())
-            else:
+            if args.format == "csv":
                 decoded_content = response.content.decode('utf-8')
                 cr = csv.reader(decoded_content.splitlines(), delimiter=';')
                 my_list = list(cr)
                 for row in my_list:
                     print(row)
+            else:
+                print(response.json())
         else:
             print(response.json())
 """
@@ -299,17 +312,21 @@ def chargesBy(args):
         print(json.dumps({'Authenticate':'You must login first!'}))
     else:
         our_headers={'access-token': token}
-        link = "https://127.0.0.1:9103/interoperability/api/ChargesBy/" + args.op1 + "/" + args.datefrom + "/" + args.dateto + "?format="+args.format
+        if(args.format is None):
+            last = "?format=json"
+        else:
+            last = "?format="+args.format
+        link = "https://127.0.0.1:9103/interoperability/api/ChargesBy/" + args.op1 + "/" + args.datefrom + "/" + args.dateto + last
         response = requests.get(link, headers=our_headers, verify=False)
         if (response.status_code==200):
-            if args.format == "json":
-                print(response.json())
-            else:
+            if args.format == "csv":
                 decoded_content = response.content.decode('utf-8')
                 cr = csv.reader(decoded_content.splitlines(), delimiter=';')
                 my_list = list(cr)
                 for row in my_list:
                     print(row)
+            else:
+                print(response.json())
         else:
             print(response.json())
 """
