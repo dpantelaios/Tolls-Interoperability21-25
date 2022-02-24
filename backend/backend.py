@@ -40,6 +40,7 @@ def loginB(username):
     finally:
         cursor.close()
 
+
 """
     Define database loading function:
         Open and execute db dump file
@@ -156,7 +157,8 @@ def resetPassesB():
         cursor = connection.cursor()
         cursor.execute('DELETE FROM pass')
         connection.commit()
-        new_admin_psw = generate_password_hash('freepasses4all', method='sha256')
+        new_admin_psw = generate_password_hash('freepasses4all')
+        
         cursor.execute(f"""UPDATE user SET password = '{new_admin_psw}' WHERE username = 'admin'""")
         connection.commit()
         return True
@@ -177,7 +179,7 @@ def resetStationsB():
         cursor = connection.cursor()
         cursor.execute('DELETE FROM station')
         connection.commit()
-        csvdata = pd.read_csv( r".\data\sampledata01_stations.csv" , sep=";")
+        csvdata = pd.read_csv( r"data\sampledata01_stations.csv" , sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             stationOp = row.stationID[:2]
@@ -204,7 +206,7 @@ def resetVehiclesB():
         cursor = connection.cursor()
         cursor.execute(' DELETE FROM vehicle')
         connection.commit()
-        csvdata = pd.read_csv(r".\data\sampledata01_vehicles_100.csv", sep=";")
+        csvdata = pd.read_csv(r"data\sampledata01_vehicles_100.csv", sep=";")
         df = pd.DataFrame(csvdata)
         for row in df.itertuples():
             cursor.execute(f""" 
