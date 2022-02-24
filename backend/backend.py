@@ -287,7 +287,7 @@ def passesCostB(op1ID, op2ID, dateFrom, dateTo):
         connection = mysql.connector.connect(**standard)
         cursor = connection.cursor()
         cursor.execute(f"""
-            SELECT ROUND(SUM(pass.charge),2)
+            SELECT ROUND(SUM(pass.charge),2), COUNT(*)
             FROM pass
             INNER JOIN vehicle ON vehicle.vehicle_ID = pass.vehicle_ID
             WHERE LEFT(pass.station_ID,2) = '{op1ID}' and  vehicle.operator_ID  = '{op2ID}'
