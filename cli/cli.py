@@ -8,6 +8,9 @@ from termcolor import colored
 urllib3.disable_warnings()
  #pip3 install urllib3==1.23
 
+"""
+    Setup error page.
+"""
 class MyParser(argparse.ArgumentParser):
     def error(self, message):
         print(colored("Invalid Parameters!", 'red'))
@@ -52,7 +55,13 @@ class MyParser(argparse.ArgumentParser):
         print("\t --users")
         #self.print_help()
         sys.exit(2)
-
+"""
+    Setup parser.
+    For every operation setup subparser.
+    The differentiation between the subparsers is based on the first argument of the cli call.
+    For every subparser declare the function it will execute and setup the arguments it receives.
+    For every argument define its type and whether it is required or not.
+"""
 def main():
     
     parser = MyParser()
@@ -109,11 +118,15 @@ def main():
     chargesBy_parser.add_argument('--dateto', type=str,required=True)
     chargesBy_parser.add_argument('--format', type=str,required=True)
 
+
+    """
+        The admin subparser has three operations with different required arguments each, usermod, passesupd and users.
+        To group up the arguments needed for every operation, we require in each of them, that the name of the corresponding operation is included in the cli call.
+    """
     admin_parser = subparsers.add_parser('admin')
-#group = admin_parser.add_mutually_exclusive_group(required=True) #At least one is required
     admin_parser.set_defaults(func=admin)
-    admin_parser.add_argument('--usermod', action = 'store_true')
-    admin_parser.add_argument('--passesupd', action = 'store_true')
+    admin_parser.add_argument('--usermod') #Afairesi lathos mutual exclusive group. Check allagi.
+    admin_parser.add_argument('--passesupd')
     admin_parser.add_argument('--users', type = str)
     admin_parser.add_argument('--username', required = '--usermod' in sys.argv)
     admin_parser.add_argument('--passw', required = '--usermod' in sys.argv)
@@ -121,7 +134,9 @@ def main():
     admin_parser.add_argument('--usertype', required = '--usermod' in sys.argv)
     admin_parser.add_argument('--source', required = '--passesupd' in sys.argv)
 
-
+    """
+        Run parser.
+    """
     try:
        args = parser.parse_args()
        args.func(args)
@@ -129,14 +144,20 @@ def main():
         print("**")
         print(e)   
 
-
+"""
+    Read token from token.to file
+"""
 def read_token():
     try:
         with open('token.to','r') as f:
            return f.read()
     except:
         return None
-
+"""
+    Define login function:
+        Format request body and make respective POST request to API.
+        Get token from response and write it to token.to file.
+"""
 def login (args):
     body={'username': args.username, 'password': args.password}
     response = requests.post("https://127.0.0.1:9103/interoperability/api/login", data=body, verify=False)
@@ -151,7 +172,11 @@ def login (args):
     except Exception as e:
         #print(e)
         print(response.json())
-
+"""
+    Define logout function:
+        Check if token exists.
+        Format request headers and body and make respective POST request to API.
+"""
 def logout(args):
     token = read_token()
     if(token is None):
@@ -161,26 +186,46 @@ def logout(args):
         body={'access-token': token}
         response = requests.post("https://127.0.0.1:9103/interoperability/api/logout", headers=our_headers, data=body, verify=False)
         print(response.json())
-
+"""
+    Define healthcheck function:
+        Make respective GET request to API.
+"""
 def healthcheck(args):
     response = requests.get("https://127.0.0.1:9103/interoperability/api/admin/healthcheck/", verify=False)
     #pip3 install urllib3==1.23
     print(response.json())
 
-
+"""
+    Define resetpasses function:
+        Make respective POST request to API.
+"""
 def resetpasses(args):
     response = requests.post("https://127.0.0.1:9103/interoperability/api/admin/resetpasses/", verify=False)
     print(response.json())
 
-
+"""
+    Same for resetstations function.
+"""
 def resetstations(args):
     response = requests.post("https://127.0.0.1:9103/interoperability/api/admin/resetstations/", verify=False)
     print(response.json())
 
+"""
+    Same for resetvehicles function.
+"""
 def resetvehicles(args):
     response = requests.post("https://127.0.0.1:9103/interoperability/api/admin/resetvehicles/", verify=False)
     print(response.json())
-    
+
+"""
+    Define passesPerStation function:
+        Check existence of token.
+        Format headers and url of request.
+        Make GET request to API.
+        If the request is successful print output according to given format. 
+        If format is csv, decode response content and print as list.
+        
+"""
 def passesPerStation(args): #i removed try-except not needed?
     token = read_token()
 
@@ -203,7 +248,9 @@ def passesPerStation(args): #i removed try-except not needed?
         else:
             print(response.json())
 
-
+"""
+    Same for passesAnalysis function.
+"""
 def passesAnalysis(args):
     token = read_token()
     
@@ -224,7 +271,9 @@ def passesAnalysis(args):
                     print(row)
         else:
             print(response.json())
-
+"""
+    Same for passesCost function.
+"""
 def passesCost(args):
     token = read_token()
     if(token is None):
@@ -246,7 +295,9 @@ def passesCost(args):
                     print(row)
         else:
             print(response.json())
-
+"""
+    Same for chargesBy function.
+"""
 def chargesBy(args):
     token = read_token()
     if(token is None):
@@ -268,7 +319,11 @@ def chargesBy(args):
                     print(row)
         else:
             print(response.json())
-
+"""
+    Define admin function:
+        Check existence of token.
+        For either passesupd, usermod or users operations, follow the same procedure as previous functions 
+"""
 def admin(args):
     token = read_token()
     if(token is None):
@@ -284,7 +339,7 @@ def admin(args):
         link="https://127.0.0.1:9103/interoperability/api/admin/createUser"
         response = requests.post(link, headers=our_headers, data=body, verify=False)
         print(response.json()) 
-## discuss else if(args.users): emfanisi katastasis xristi alla den kratame poioi einai logged in kai den exoume to token pou tou dosame
+## discuss else if(args.users): emfanisi katastasis xristi alla den kratame poioi einai logged in kai den exoume to token pou tou dosame. Kati provlimatiko paizei edo
     elif(args.users):
         our_headers={'access-token': token}
         body={'username': args.users}
