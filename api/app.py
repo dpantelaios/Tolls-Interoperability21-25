@@ -134,10 +134,6 @@ class healthcheck(Resource):
                 statusCode = 500
         finally:
             return make_response(jsonify(OrderedDict({'status': status,'dbconnection': dbconnection})), statusCode)
-"""
-(CHECK)    frontend. mporei na ginei integrate me tis sinartiseis tou api? 
-
-"""
 
 @app.route('/interoperability/api/createUser.html', methods = ['GET'])
 def gotocreateuser():
@@ -247,10 +243,8 @@ class resetVehicles(Resource):
     (returns list of passes for the specified station and time period, using the specified format (json or csv))
         Check if current_user has access to this data and arguments are valid.
         Get return list format and check its validity.
-(~) Den anaferoume giati allazoume ta dates :)
         Call passesPerStationB function from backend.
         If passesPerStationB return value indicates unavailable or nonexistant data, return corresponding error.
-(~) Exei pei kati gia to format tou csv fantazomai?
         For every row of data return, differentiate between home and visitor passes.
         Compose result according to given format.
         If format is "csv", create list of dictionaries, in which every dictionary represents a csv row. 
@@ -369,10 +363,8 @@ class passesAnalysis(Resource):
     (returns amount and total cost of passes involving tags of operator op2_ID and stations of operator op1_ID for the specified time period, using the specified format (json or csv))
         Check if current_user has access to this data and arguments are valid.
         Get return list format and check its validity.
-(~) Den anaferoume giati allazoume ta dates :)
         Call passesCostB function from backend.
         If passesCostB return value indicates unavailable or nonexistant data, return corresponding error.
-(~) Exei pei kati gia to format tou csv fantazomai?
         Compose result dictionary. 
         If format is "csv", return result dict. as a csv form string of data with ";" as the delimeter accompanied by the successful HTTP status code.
         If format is "json", return said dict. as a JSON object accompanied by the successful HTTP status code. 
