@@ -156,7 +156,8 @@ def resetPassesB():
         cursor = connection.cursor()
         cursor.execute('DELETE FROM pass')
         connection.commit()
-        cursor.execute("UPDATE user SET password = 'freepasses4all' WHERE username = 'admin'")
+        new_admin_psw = generate_password_hash('freepasses4all', method='sha256')
+        cursor.execute("UPDATE user SET password = '{new_admin_psw}' WHERE username = 'admin'")
         connection.commit()
         return True
     except:
