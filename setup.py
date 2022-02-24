@@ -15,7 +15,7 @@ setup(
         'requests',
         'termcolor'
     ], 
-    scripts=[r".\backend\backend.py",r".\app\app.py",r".\cli\cli.py"],
+    scripts=[r".\backend\backend.py",r".\api\app.py",r".\cli\cli.py"],
     packages=find_packages(where=r"..\app"),
     entry_points={
         'console_scripts': [
