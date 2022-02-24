@@ -92,7 +92,7 @@ def main():
     passesPerStation_parser.add_argument('--station', type=str,required=True)
     passesPerStation_parser.add_argument('--datefrom', type=str,required=True)
     passesPerStation_parser.add_argument('--dateto', type=str,required=True)
-    passesPerStation_parser.add_argument('--format', type=str,required=True)
+    passesPerStation_parser.add_argument('--format', type=str,required=False)
     
     passesAnalysis_parser = subparsers.add_parser('passesanalysis')
     passesAnalysis_parser.set_defaults(func=passesAnalysis)
@@ -100,7 +100,7 @@ def main():
     passesAnalysis_parser.add_argument('--op2', type=str,required=True)
     passesAnalysis_parser.add_argument('--datefrom', type=str,required=True)
     passesAnalysis_parser.add_argument('--dateto', type=str,required=True)
-    passesAnalysis_parser.add_argument('--format', type=str,required=True)
+    passesAnalysis_parser.add_argument('--format', type=str,required=False)
 
 
     passesCost_parser = subparsers.add_parser('passescost')
@@ -109,14 +109,14 @@ def main():
     passesCost_parser.add_argument('--op2', type=str,required=True)
     passesCost_parser.add_argument('--datefrom', type=str,required=True)
     passesCost_parser.add_argument('--dateto', type=str,required=True)
-    passesCost_parser.add_argument('--format', type=str,required=True)
+    passesCost_parser.add_argument('--format', type=str,required=False)
  
     chargesBy_parser = subparsers.add_parser('chargesby')
     chargesBy_parser.set_defaults(func=chargesBy)
     chargesBy_parser.add_argument('--op1', type=str,required=True)
     chargesBy_parser.add_argument('--datefrom', type=str,required=True)
     chargesBy_parser.add_argument('--dateto', type=str,required=True)
-    chargesBy_parser.add_argument('--format', type=str,required=True)
+    chargesBy_parser.add_argument('--format', type=str,required=False)
 
 
     """
