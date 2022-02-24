@@ -294,8 +294,19 @@ def passesCostB(op1ID, op2ID, dateFrom, dateTo):
             AND pass.pass_time BETWEEN '{dateFrom}' AND '{dateTo}' 
             ORDER BY pass.pass_time         
         """)
-        data = cursor.fetchall()
-        return  {"data": data, "count": len(data)} 
+        is_owed_data = cursor.fetchall()
+
+        cursor.execute(f"""
+            SELECT ROUND(SUM(pass.charge),2)
+            FROM pass
+            INNER JOIN vehicle ON vehicle.vehicle_ID = pass.vehicle_ID
+            WHERE LEFT(pass.station_ID,2) = '{op2ID}' and  vehicle.operator_ID  = '{op1ID}'
+            AND pass.pass_time BETWEEN '{dateFrom}' AND '{dateTo}' 
+            ORDER BY pass.pass_time         
+        """)
+        ows_data = cursor.fetchall()
+
+        return {"is_owed_data": is_owed_data, "is_owed_count": len(is_owed_data), "ows_data": ows_data, "ows_count": len(ows_data)}
     except:
         return None
     finally:
