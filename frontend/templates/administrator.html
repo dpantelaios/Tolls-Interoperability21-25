@@ -1,0 +1,107 @@
+<html>
+    <title>
+        Interoperability System
+    </title>
+    <head>
+        <!--Styling-->
+        <style>
+
+            button {
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 30%;
+        }
+        
+        button:hover {
+          opacity: 0.8;
+        }
+      
+        input[type="submit"]{
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 30%;
+        }
+
+        input:hover{
+          opacity: 0.8;
+        }
+
+        a{
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 30%;
+        }
+
+        a:hover{
+          opacity: 0.8;
+        }
+            </style>
+        </head>
+        <p id ="back"> <button type = "button" id = "lgout">Logout</button> </p>
+        <body style = "background-color: gainsboro;">
+        <h1>Σύστημα Διαλειτουργικότητας</h1>
+        <h2>Σελίδα διαχειριστή λογισμικού</h2>
+        <!--Button redirecting to create user page-->
+        <p><a href="https://localhost:9103/interoperability/api/createUser.html">Create Accounts</a></p>
+
+        
+        <!--Logout script-->
+        <script>
+            document.getElementById("pCost").addEventListener("click", passesCost);
+
+            function passesCost(){
+                var w = window.location.href = 'PassesCost.html';
+                window.open(w);
+            }
+        </script>
+
+
+          <script>
+         
+            document.getElementById("lgout").addEventListener("click", logoutFunction);
+
+               function logoutFunction(){
+                //document.write("logout pressed");
+                var yourUrl;
+                yourUrl = "https://localhost:9103/interoperability/api/logout"
+                var xhr = new XMLHttpRequest();
+                
+
+                var token = sessionStorage.getItem("token");
+                var params = 'access-token=' + token;
+
+                xhr.open("POST", yourUrl, true);
+
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                xhr.setRequestHeader("access-token", token);
+                xhr.send(params);
+                var json;
+
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200){
+ 
+
+                      document.write(xhr.responseText);
+                      document.write("Logged out Successfully")
+                      var w1 = window.location.href = 'https://localhost:9103/interoperability/api';
+                      window.open(w1);
+                     
+                  }
+                }
+              }
+        </script>
+        </body>
+
+</html>

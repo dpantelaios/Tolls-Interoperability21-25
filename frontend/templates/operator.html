@@ -1,0 +1,263 @@
+<html>
+    
+    <title>
+        Interoperability System
+    </title>
+
+    <!-- Styling -->
+    <style>
+      button {
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 30%;
+        }
+        
+        button:hover {
+          opacity: 0.8;
+        }
+      
+        input[type="submit"]{
+          background-color: #04AA6D;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 30%;
+        }
+
+        input:hover{
+          opacity: 0.8;
+        }
+      </style>
+    <head>
+        </head>
+        <p id ="back"> <button type = "button" id = "lgout">Logout</button> </p>
+        <body style = "background-color: gainsboro;">
+        <h1>Σύστημα Διαλειτουργικότητας</h1>
+        <h2>Λειτουργός Αυτοκινητόδρομου</h2>
+        
+    
+    <!--Script for dynamic dropdowns-->
+    <script>
+
+    function abbr2Name(abbr){
+      switch(abbr){
+        case "AO": 
+          return "Αττική Οδός";
+        case "EG":
+          return "Εγνατία Οδός";
+        case "GF":
+          return "Γέφυρα";
+        case "KO":
+          return "Κεντρική Οδός";
+        case "MR":
+          return "Μορέας";
+        case "NE":
+          return "Νέα Οδός";
+        case "OO":
+          return "Ολυμπία Οδός";
+      }
+    }
+    
+  
+
+    function dynamicdropdown(listindex)
+    {   
+      var opID = sessionStorage.getItem("operator");
+        if(listindex == opID){
+            document.getElementById("op_2").length = 0;
+            document.getElementById("op_2").options[0]=new Option("Αττική Οδός", "AO");
+            document.getElementById("op_2").options[1]=new Option("Εγνατία Οδός", "EG");
+            document.getElementById("op_2").options[2]=new Option("Γέφυρα","GF");
+            document.getElementById("op_2").options[3]=new Option("Κεντρική Οδός", "KO");
+            document.getElementById("op_2").options[4]=new Option("Μορέας", "MR");
+            document.getElementById("op_2").options[5]=new Option("Νέα Οδός", "NE");
+            document.getElementById("op_2").options[6]=new Option("Ολυμπία Οδός", "OO");
+        }
+        else{
+            document.getElementById("op_2").length = 0;
+            document.getElementById("op_2").options[0]=new Option(abbr2Name(opID), opID);
+            
+        }
+        return true;
+    }
+    window.onload = function dynamicdropdown2(){
+      var opID = sessionStorage.getItem("operator");
+      document.getElementById("op").options[0]=new Option(abbr2Name(opID), opID);
+   
+      if(opID == "AO"){
+          document.getElementById("op_2").length = 0;
+            document.getElementById("op_2").options[0]=new Option("Αττική Οδός", "AO");
+            document.getElementById("op_2").options[1]=new Option("Εγνατία Οδός", "EG");
+            document.getElementById("op_2").options[2]=new Option("Γέφυρα","GF");
+            document.getElementById("op_2").options[3]=new Option("Κεντρική Οδός", "KO");
+            document.getElementById("op_2").options[4]=new Option("Μορέας", "MR");
+            document.getElementById("op_2").options[5]=new Option("Νέα Οδός", "NE");
+            document.getElementById("op_2").options[6]=new Option("Ολυμπία Οδός", "OO");
+        }
+        else{
+          document.getElementById("op_2").length = 0;
+          document.getElementById("op_2").options[0]=new Option(abbr2Name(opID), opID);
+        }
+    }
+    
+    
+
+    </script>
+
+    <!--Select filters for endpoints-->
+        <form action = "PassesAnalysis.html" method = "get">
+        
+          <div class="container">
+                <label for="op_1"><b>Λειτουργός σταθμών: </b></label>
+                <br>
+                <select name="op_1" id="op_1"  onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
+
+                  <option value="AO">Αττική Οδός</option>
+                  <option value="EG">Εγνατία Οδός</option>
+                  <option value="GF">Γέφυρα</option>
+                  <option value="KO">Κεντρική Οδός</option>
+                  <option value="MR">Μορέας</option>
+                  <option value="NE">Νέα Οδός</option>
+                  <option value="OO">Ολυμπία Οδός</option>
+                  
+                </select>
+          </div>
+          <div class="container">
+            <label for="op_2"><b>Διαχειριστής tag: </b></label>
+            <br>
+
+            <select name="op_2" id="op_2">
+                
+            </select>
+          </div>
+          <label for = "startDate"><b>Αρχική Ημερομηνία:</b></label>
+          <br>
+          <input type = "date" id = "startDate" name = "startDate">
+          <br>
+          <label for = "endDate"><b>Τελική Ημερομηνία:</b></label>
+          <br>
+          <input type = "date" id = "endDate" name = "endDate">
+          <br>
+          <input type = "submit" name = "PassesAnalysis"  value = "Get passes analysis" id = "pAnalysis">
+          <input type = "submit" name = "PassesCost"  formaction="PassesCost.html" value = "Get passes cost" id = "pCost">
+         
+        </form>
+
+        <p id = "msg"></p>
+        <p id = "test"></p>
+
+
+        <!--Script with listeners for dropdown selection. Redirects to suitable endpoint page-->
+        <script>
+
+            document.getElementById("pAnalysis").addEventListener("click", passesAnalysis);
+            document.getElementById("pCost").addEventListener("click", passesCost);
+            var opID = sessionStorage.getItem("operator");
+            function passesAnalysis() {
+                  var op_1 = document.getElementById('op_1').value;
+                  var op_2 = document.getElementById('op_2').value;
+  
+                  if(opID != op_1 && opID != op_2){
+                    document.getElementById('msg').innerHTML = "Can only view data for own charges";
+                  }
+                  else{
+                    var w1 = window.location.href = 'PassesAnalysis.html';
+                    window.open(w1);
+                  }
+               }
+            function passesCost(){
+                var op_1 = document.getElementById('op_1').value;
+                var op_2 = document.getElementById('op_2').value;
+                if(opID != op1 && opID != op2){
+                    document.getElementById('msg').innerHTML = "Can only view data for own charges";
+                  }
+                else{    
+                    var w = window.location.href = 'PassesCost.html';
+                    window.open(w);
+                }
+            }
+        </script>
+
+        <!--Select filters for endpoints-->
+        <form action="ChargesBy.html" method = "get" onload = "dynamicdropdown2();">
+        
+            <div class="container">
+                  <label for="op"><b>Λειτουργός σταθμών: </b></label>
+                  <br>
+                  <select name="op" id="op">
+                    
+                    
+                  </select>
+            </div>
+            
+            <label for = "startDate"><b>Starting date:</b></label>
+            <br>
+            <input type = "date" id = "startDate" name = "startDate">
+            <br>
+            <label for = "endDate"><b>Ending date:</b></label>
+            <br>
+            <input type = "date" id = "endDate" name = "endDate">
+            <br>
+            <input type = "submit" name = "ChargesBy" value = "Get charges" id = "chargesBy">
+           
+          </form>
+          <p id = "msg2"></p>
+          <!--Script with listeners for dropdown selection. Redirects to suitable endpoint page-->
+          <script>
+            document.getElementById("chargesBy").addEventListener("click", chargesby);
+            document.getElementById("lgout").addEventListener("click", logoutFunction);
+            function chargesby() {
+                var op = document.getElementById('op').value;
+                if(opID != op){
+                    document.getElementById('msg2').innerHTML = "Can only view data for own charges";
+                  }
+                  else{  
+                    var w = window.location.href = 'ChargesBy.html';
+                    window.open(w);
+                  }
+               }
+            function logoutFunction(){
+          
+                var yourUrl;
+                yourUrl = "https://localhost:9103/interoperability/api/logout"
+                var xhr = new XMLHttpRequest();
+                
+
+                var token = sessionStorage.getItem("token");
+                var params = 'access-token=' + token;
+
+                xhr.open("POST", yourUrl, true);
+
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                xhr.setRequestHeader("access-token", token);
+                xhr.send(params);
+                var json;
+
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200){
+ 
+                      
+                      document.write(xhr.responseText);
+                      setTimeout(doSomething, 190000);
+
+                      function doSomething() {
+                      
+                          document.write("Logged out Successfully");
+                       }
+                    
+                      var w1 = window.location.href = 'https://localhost:9103/interoperability/api';
+                      window.open(w1);
+                     
+                  }
+                }
+              }
+        </script>
+        </body>
+
+</html>
