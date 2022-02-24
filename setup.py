@@ -11,14 +11,15 @@ setup(
         'pandas>=1.3.5',
         'jwt',
         'APScheduler',
-        'Werkzeug'
-        #mysqlcommunity
+        'Werkzeug',
+        'requests',
+        'termcolor'
     ], 
-    scripts=[r"..\app\backend.py",r"..\app\app.py",r"..\app\cli.py"],
+    scripts=[r".\backend\backend.py",r".\app\app.py",r".\cli\cli.py"],
     packages=find_packages(where=r"..\app"),
     entry_points={
         'console_scripts': [
-            'se2125=app.cli:main'
+            'se2125=cli:main'
         ]
     }
 )
