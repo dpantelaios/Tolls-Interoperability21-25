@@ -9,7 +9,7 @@ setup(
         'mysqlclient==2.1.0',
         'mysql-connector-python==8.0.27',
         'pandas>=1.3.5',
-        'jwt',
+        'pyjwt == 1.6.4',
         'APScheduler',
         'Werkzeug',
         'requests',
