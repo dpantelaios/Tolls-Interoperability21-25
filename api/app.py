@@ -356,7 +356,6 @@ class passesAnalysis(Resource):
         except Exception as e:
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
-
 """
     Define Resource passesCost:
     (returns amount and total cost of passes involving tags of operator op2_ID and stations of operator op1_ID for the specified time period, that is the amount op2 ows op1, minus the amount op1 ows op2 (if this is negative returns 0), using the specified format (json or csv))
@@ -367,7 +366,6 @@ class passesAnalysis(Resource):
         Compose result dictionary. 
         If format is "csv", return result dict. as a csv form string of data with ";" as the delimeter accompanied by the successful HTTP status code.
         If format is "json", return said dict. as a JSON object accompanied by the successful HTTP status code. 
-
 """
 
 class passesCost(Resource):
@@ -399,7 +397,7 @@ class passesCost(Resource):
             ows_data=ret['ows_data']
             PassesCost = max(round(is_owed_data[0][0]-ows_data[0][0], 2), 0)
             d = OrderedDict()
-            d = {'op1_ID': op1ID, 'op2_ID': op2ID, 'RequestTimestamp': RequestTimestamp, 'PeriodFrom': dateFrom[:10], 'PeriodTo': dateTo[:10], 'NumberOfPasses' : is_owed_count,'PassesCost':PassesCost}
+            d = {'op1_ID': op1ID, 'op2_ID': op2ID, 'RequestTimestamp': RequestTimestamp, 'PeriodFrom': dateFrom[:10], 'PeriodTo': dateTo[:10], 'NumberOfPasses' : is_owed_data[0][1],'PassesCost':PassesCost}
             if datatype == 'csv':
                 df = pd.DataFrame(d, index=[0])
                 csvData = df.to_csv(index=False, sep = ';')
@@ -409,6 +407,8 @@ class passesCost(Resource):
         except Exception as e:
             print(e)
             return make_response(jsonify({'status': 'failed'}), 500)
+
+
 
 """
     Define Resource chargesBy:
@@ -449,8 +449,8 @@ class chargesBy(Resource):
             is_owed_data = ret['is_owed_data']
             ows_data=ret['ows_data']
             PPOList = []
-            ows=0
             for row in is_owed_data:
+                ows=0
                 for find_ows in ows_data:
                     if(row[0]==find_ows[0]):
                         ows=find_ows[2]
@@ -464,7 +464,8 @@ class chargesBy(Resource):
                     listObj = {'op_ID': opID, 'RequestTimestamp':RequestTimestamp , 'PeriodFrom': dateFrom[:10], 'PeriodTo': dateTo[:10],'VisitingOperator': row[0],'NumberOfPasses':row[1], 'PassesCost':is_owed}
                 else:
                     listObj = {'VisitingOperator': row[0],'NumberOfPasses':row[1], 'PassesCost':is_owed}
-                PPOList.append(listObj) 
+                if(is_owed != 0): 
+                    PPOList.append(listObj) 
             if datatype == 'csv':
                 pdObjR = pd.DataFrame.from_records(PPOList)
                 csvData = pdObjR.to_csv(index=False, sep = ';')
