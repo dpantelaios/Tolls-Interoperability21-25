@@ -3,6 +3,8 @@
     <title>
         Interoperability System
     </title>
+
+    <!-- Styling -->
     <style>
       button {
           background-color: #04AA6D;
@@ -39,8 +41,10 @@
         <h1>Σύστημα Διαλειτουργικότητας</h1>
         <h2>Λειτουργός Αυτοκινητόδρομου</h2>
         
-    <script>
     
+    <!--Script for dynamic dropdowns-->
+    <script>
+
     function abbr2Name(abbr){
       switch(abbr){
         case "AO": 
@@ -105,6 +109,8 @@
     
 
     </script>
+
+    <!--Select filters for endpoints-->
         <form action = "PassesAnalysis.html" method = "get">
         
           <div class="container">
@@ -146,6 +152,8 @@
         <p id = "msg"></p>
         <p id = "test"></p>
 
+
+        <!--Script with listeners for dropdown selection. Redirects to suitable endpoint-->
         <script>
 
             document.getElementById("pAnalysis").addEventListener("click", passesAnalysis);
@@ -176,7 +184,7 @@
             }
         </script>
 
-        
+        <!--Select filters for endpoints-->
         <form action="ChargesBy.html" method = "get" onload = "dynamicdropdown2();">
         
             <div class="container">
@@ -200,7 +208,7 @@
            
           </form>
           <p id = "msg2"></p>
-
+          <!--Script with listeners for dropdown selection. Redirects to suitable endpoint-->
           <script>
             document.getElementById("chargesBy").addEventListener("click", chargesby);
             document.getElementById("lgout").addEventListener("click", logoutFunction);
@@ -215,7 +223,7 @@
                   }
                }
             function logoutFunction(){
-                //document.write("logout pressed");
+          
                 var yourUrl;
                 yourUrl = "https://localhost:9103/interoperability/api/logout"
                 var xhr = new XMLHttpRequest();
@@ -239,10 +247,10 @@
                       setTimeout(doSomething, 190000);
 
                       function doSomething() {
-                      //do whatever you want here
+                      
                           document.write("Logged out Successfully");
                        }
-                    //  document.write("Logged out Successfully")
+                    
                       var w1 = window.location.href = 'https://localhost:9103/interoperability/api';
                       window.open(w1);
                      
