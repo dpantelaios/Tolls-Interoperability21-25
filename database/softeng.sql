@@ -21,4 +21,20 @@ ALTER TABLE `pass`  ADD CONSTRAINT `FKPass796425` FOREIGN KEY (`vehicle_ID`) REF
 ALTER TABLE `station`  ADD CONSTRAINT `FKStation557939` FOREIGN KEY (`operator_ID`) REFERENCES `operator` (`operator_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `vehicle`  ADD CONSTRAINT `FKVehicle991332` FOREIGN KEY (`operator_ID`) REFERENCES `operator` (`operator_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 INSERT INTO operator VALUES('AO','aodos'),('OO','olympia_odos'),('NE','nea_odos'),('GF','gefyra'),('KO','kentriki_odos'),('EG','egnatia'),('MR', 'moreas');
+CREATE TRIGGER PASS_TO_CHARGE
+	AFTER INSERT
+    ON pass FOR EACH ROW
+ BEGIN
+	DECLARE ID1 CHAR(2);
+	DECLARE ID2 CHAR(2);
+    SET ID1 = (SELECT DISTINCT operator_ID
+        FROM station
+        WHERE NEW.station_ID=station.station_ID);
+    SET ID2 = (SELECT DISTINCT operator_ID
+        FROM vehicle
+        WHERE NEW.vehicle_ID=vehicle.vehicle_ID);
+	IF ID1<>ID2 THEN 
+		INSERT INTO charge VALUES(ID2,ID1,NEW.pass_time,NEW.charge,NEW.pass_ID);
+	END IF;
+END
 COMMIT;
