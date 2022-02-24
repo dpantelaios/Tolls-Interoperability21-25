@@ -359,7 +359,7 @@ class passesAnalysis(Resource):
 
 """
     Define Resource passesCost:
-    (returns amount and total cost of passes involving tags of operator op2_ID and stations of operator op1_ID for the specified time period, using the specified format (json or csv))
+    (returns amount and total cost of passes involving tags of operator op2_ID and stations of operator op1_ID for the specified time period, that is the amount op2 ows op1, minus the amount op1 ows op2 (if this is negative returns 0), using the specified format (json or csv))
         Check if current_user has access to this data and arguments are valid.
         Get return list format and check its validity.
         Call passesCostB function from backend.
