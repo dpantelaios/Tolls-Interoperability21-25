@@ -2,6 +2,8 @@
     <title>
         Interoperability System
     </title>
+
+    <!--Styling-->
     <style>
         body {font-family: Arial, Helvetica, sans-serif;}
         form {border: 3px solid #f1f1f1;}
@@ -83,7 +85,9 @@
           }
           
           </style>
+           
 
+        <!--Display picture-->
         <center>          
         <img src="/static/highway.jpg" height =400 width = 1500 class = "center">
         </center>
@@ -94,7 +98,7 @@
         </script>
         
 
-
+        <!--Log in form-->
         <form onsubmit = "javascript:doClick(); return false;" method="post" name = "user_type">
             
             <label for="uname"><b>Username</b></label>
@@ -109,19 +113,20 @@
         
         <p id = "test"></p>
         
+        <!--Script with listeners. Redirects to suitable user page. Also, stores token in session storage-->
         <script>
           
             document.getElementById("submitBtn").addEventListener("click", doClick);
             function doClick() {
               
               var nameValue = document.getElementById("uname").value;
-              //document.write(nameValue + " ");
+              
             
               var passwrd = document.getElementById("psw").value;
               
               var yourUrl = "https://localhost:9103/interoperability/api/login"
               var params = 'username=' + nameValue + '&password=' + passwrd;
-              //var params = 'username=admin&password=freepasses4all';
+              
 
               var xhr = new XMLHttpRequest();
               xhr.open("POST", yourUrl, true);
@@ -139,18 +144,18 @@
                       sessionStorage.setItem("token", token);
                       
                       if (type == "admin"){
-                        //document.writeln(json.type);
+                        
                           var w1 = window.location.href = 'administrator.html';
                           window.open(w1)
                       }
                       else if(type == "ministry"){
-                          //document.writeln(json.type);
+                          
                           var w2 = window.location.href = 'operator.html';
                           window.open(w2);
                       }
                       else{
                           sessionStorage.setItem("operator", type);
-                          //document.writeln(json.type);
+                          
                           var w3 = window.location.href = 'operator.html';
                           window.open(w3);
                       }
@@ -160,9 +165,7 @@
                     window.open(w4);
                 }
               };
-              //var type = document.user_type.user_types.selectedIndex;
-              /*var e = document.getElementById("user_types");
-              var type = e.options[e.selectedIndex].value;*/
+              
             }
             
         </script>          
