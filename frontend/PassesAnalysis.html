@@ -75,7 +75,7 @@
             }
             var url1 = "https://localhost:9103/interoperability/api/PassesAnalysis/" + op1 + "/" + op2 + "/" + startdate + "/" + enddate + "/";
             //var url1 = "https://localhost:9103/interoperability/api/PassesAnalysis/AO/EG/20201208/20211230/";
-            var token = sessionStorage.getItem("token");
+            var token = sessionStorage.getItem("token");    /* temporarily store token for this session */
             
 
             var myArr;
@@ -104,7 +104,7 @@
                   text += "<hr>";
                   
                   myArr.PassesList.map(passTemplate).join('');    
-                  document.getElementById('p1').innerHTML = text;  
+                  document.getElementById('p1').innerHTML = text;        /* print output to HTML page */
              }
             });
             
