@@ -13,7 +13,7 @@ setup(
         'APScheduler',
         'Werkzeug',
         'requests',
-        'termcolor == 1.1.0'
+        'termcolor == 1.1.0',
         'colorama'
     ], 
     scripts=[r".\backend\backend.py",r".\api\app.py",r".\cli\cli.py"],
