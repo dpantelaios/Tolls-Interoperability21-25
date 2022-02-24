@@ -5,7 +5,6 @@ import datetime
 import pandas as pd
 from backend.backend import *
 from apscheduler.schedulers.background import BackgroundScheduler
-#from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from collections import OrderedDict
 import atexit
 import jwt
@@ -509,9 +508,9 @@ class insertPasses(Resource):
 class login(Resource):
     def post(self):
         try:
+            
             username = request.form.get('username')
             password = request.form.get('password')
-            #print(generate_password_hash(password, method='sha256'))
             if not username:
                  return make_response(jsonify({'Authenticate' : 'Login required!'}), 401)
             if not password:
@@ -523,9 +522,14 @@ class login(Resource):
             if (not count):
                 return make_response(jsonify({'Authenticate': 'Wrong credentials'}), 401)
             data = ret['data']
+            print(data[2])
             if check_password_hash(data[2], password):
+                print("hello")
+                print(password)
+                print(data[2])
+                
                 token = jwt.encode({'user' : data[1], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-                return jsonify({'token' : token.decode('UTF-8'), 'type' : data[0]})
+                return jsonify({'token' : token.decode('UTF-8'), 'type' : data[0]}) 
             return make_response(jsonify({'Authenticate':'Wrong Password!'}), 401 )
         except Exception as e:
             print(e)
@@ -563,7 +567,7 @@ class createUser(Resource):
             username = request.form.get('username')
             password = request.form.get('password')
             user_type = request.form.get('user_type')
-            hashed_password = generate_password_hash(password, method='sha256')
+            hashed_password = generate_password_hash(password)
             if (createUserB(username, hashed_password, user_type)):
                 status = 'ok'
                 statusCode = 200
