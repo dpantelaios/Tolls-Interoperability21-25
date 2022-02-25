@@ -14,7 +14,8 @@ setup(
         'Werkzeug',
         'requests',
         'termcolor == 1.1.0',
-        'colorama'
+        'colorama',
+        'os'
     ], 
     scripts=[r".\backend\backend.py",r".\api\app.py",r".\cli\cli.py"],
     packages=find_packages(where=r"..\app"),
