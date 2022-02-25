@@ -49,8 +49,8 @@ atexit.register(lambda: scheduler.shutdown())
     Initialise app as an object of Flask class.
     Initialise API as RESTful.
 """
-
-app = Flask(__name__)
+template_dir = os.path.abspath('./frontend/templates')
+app = Flask(__name__,template_folder=template_dir)
 api = Api(app)
 path = '/interoperability/api/'
 
